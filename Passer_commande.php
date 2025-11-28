@@ -12,6 +12,6 @@
     <p style="text-align: center;">Choix de famille de produits</p>
     <a href="index.php" class="mon-bouton">Retour</a>
     <a href="index.php" class="mon-bouton">Valider</a>
-    <button class="mon-bouton">Annuler</button>
+    <button class="mon-bouton"><a href="index.php">Annuler</a></button>
 </body>
 </html>
