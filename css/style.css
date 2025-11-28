@@ -1,39 +1,46 @@
-.titre-1{
+/* --- Rappel des classes précédentes (déjà dans ton fichier) --- */
+.titre-1, .titre-2 {
     text-align: center;
+    margin-bottom: 15px;
 }
 
-.titre-2{
-    text-align: center;
-}
-
-.container{
-    margin: auto;
-    height: 300px;
+.container {
+    margin: 20px auto;
     width: 300px;
-    position: relative;
+    padding: 20px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-.bouton-commande{
-    padding: 10px;
+/* --- Le style standard des boutons --- */
+.bouton-menu {
     display: block;
-    margin : auto;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    background-color: #f0f0f0; /* Gris clair */
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
 }
 
-.bouton-acces-compte{
-    padding: 10px;
-    display: block;
-    margin : auto;
+.bouton-menu:hover {
+    background-color: #e0e0e0;
 }
 
-.bouton-incription{
-    padding: 10px;
-    display: block;
-    margin : auto;
+/* --- NOUVEAU : Un style spécifique pour le bouton Annuler (Rouge) --- */
+.btn-danger {
+    background-color: #ffcccc; /* Fond rouge clair */
+    border-color: #ff0000;
+    color: #cc0000;
 }
 
-.bouton-gestion-données{
-    padding: 10px;
-    display: block;
-    margin : auto;
+.btn-danger:hover {
+    background-color: #ff9999; /* Rouge plus foncé au survol */
 }
-

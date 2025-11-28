@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,10 +8,19 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1 style="text-align: center;">Bienvenue au supermarché 2.0</h1>
-    <p style="text-align: center;">Choix de famille de produits</p>
-    <a href="index.php" class="mon-bouton">Retour</a>
-    <a href="index.php" class="mon-bouton">Valider</a>
-    <button class="mon-bouton">Annuler</button>
+
+    <h1 class="titre-1">Bienvenue au supermarché 2.0</h1>
+    <p class="titre-2">Choix de famille de produits</p>
+
+    <div class="container">
+        
+        <a href="#" class="bouton-menu">Valider la sélection</a>
+
+        <a href="index.php" class="bouton-menu">Retour à l'accueil</a>
+
+        <a href="index.php" class="bouton-menu btn-danger">Annuler</a>
+        
+    </div>
+
 </body>
 </html>
