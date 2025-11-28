@@ -10,8 +10,8 @@
 <body>
     <h1 style="text-align: center;">Bienvenue au supermarché 2.0</h1>
     <p style="text-align: center;">Choix de famille de produits</p>
-    <a href="https://google.com" class="mon-bouton">Retour</a>
-    <a href="https://google.com" class="mon-bouton">Valider</a>
+    <a href="index.php" class="mon-bouton">Retour</a>
+    <a href="index.php" class="mon-bouton">Valider</a>
     <button class="mon-bouton">Annuler</button>
 </body>
 </html>
