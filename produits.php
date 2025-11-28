@@ -1,16 +1,8 @@
 <?php
-require_once 'php/db.php';
-
+require_once 'php/Modele.php';
 $idFamille = isset($_GET['famille']) ? $_GET['famille'] : 0;
-
-try {
-    $sql = "SELECT * FROM produit WHERE IdFamille = :id";
-    $sth = $dbh->prepare($sql);
-    $sth->execute(['id' => $idFamille]);
-    $produits = $sth->fetchAll(PDO::FETCH_OBJ);
-} catch (PDOException $e) {
-    die("Erreur SQL : " . $e->getMessage());
-}
+$modele = new Modele();
+$produits = $modele->getProduitsParFamille($idFamille);
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +15,6 @@ try {
 <body>
 
     <form action="panier.php" method="GET">
-        
         <div class="container">
             <div class="titre-1">Bienvenue au supermarché 2.0</div>
             <div class="titre-2">Choix du produit</div>
@@ -39,14 +30,12 @@ try {
                     <option disabled>Aucun produit ici</option>
                 <?php endif; ?>
             </select>
+
             <div class="zone-boutons">
                 <a href="Passer_commande.php" class="bouton-menu">Retour</a>
-
                 <button type="submit" class="bouton-menu">Valider</button>
-                
                 <button type="reset" class="bouton-menu btn-danger">Annuler</button>
             </div>
-
         </div>
     </form>
 
