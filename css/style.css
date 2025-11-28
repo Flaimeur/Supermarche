@@ -14,20 +14,26 @@
 }
 
 .bouton-commande{
-    margin: auto;
-    height: 90px;
-    width: 90px;
+    padding: 10px;
+    display: block;
+    margin : auto;
 }
 
 .bouton-acces-compte{
     padding: 10px;
+    display: block;
+    margin : auto;
 }
 
 .bouton-incription{
     padding: 10px;
+    display: block;
+    margin : auto;
 }
 
 .bouton-gestion-données{
     padding: 10px;
+    display: block;
+    margin : auto;
 }
 
