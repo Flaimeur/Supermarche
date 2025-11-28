@@ -1,28 +1,50 @@
+<?php
+require_once 'php/db.php';
+
+try {
+    $sql = "SELECT * FROM famille"; 
+    $sth = $dbh->query($sql);
+    $familles = $sth->fetchAll(PDO::FETCH_OBJ);
+} catch (PDOException $e) {
+    die("Erreur SQL : " . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passer une commande</title>
+    <title>Choix de la famille</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-
-    <h1 class="titre-1">Bienvenue au supermarché 2.0</h1>
-    <p class="titre-2">Choix de famille de produits</p>
-
-    <div class="container">
+    <form action="produits.php" method="GET">
         
-        <a href="#" class="bouton-menu">Valider la sélection</a>
+        <div class="container">
+            <div class="titre-1">Bienvenue au supermarché 2.0</div>
+            <div class="titre-2">Choix de la famille de produits</div>
 
-        <a href="index.php" class="bouton-menu">Retour à l'accueil</a>
+            <select name="famille" size="5" required>
+                <?php foreach ($familles as $f): ?>
+                    <option value="<?= $f->IdFamille ?>">
+                        <?= htmlspecialchars($f->NomFamille) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-        <a href="index.php" class="bouton-menu btn-danger">Annuler</a>
+            <div class="zone-boutons">
+                
+                <a href="index.php" class="bouton-menu">Retour</a>
+
+                <button type="submit" class="bouton-menu">Valider</button>
+                
+                <button type="reset" class="bouton-menu btn-danger">Annuler</button>
+                
+            </div>
+
+        </div>
         
-    </div>
-
-
+    </form> 
 </body>
 </html>
