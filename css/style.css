@@ -58,7 +58,7 @@ select {
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   background-color: #fafafa;
-  outline: none; 
+  outline: none;
   transition: border-color 0.3s;
 }
 
@@ -124,4 +124,49 @@ button[type="submit"].bouton-menu:hover {
   background-color: #ef5350; /* Rouge vif au survol */
   color: white; /* Texte devient blanc */
   border-color: #ef5350;
+}
+
+/* --- AJOUTS POUR LA PAGE QUANTITÉ --- */
+
+.produit-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Le carré gris pour l'image (placeholder) */
+.image-box {
+  width: 150px;
+  height: 150px;
+  background-color: #e0e0e0; /* Gris */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Le style des infos (Prix / Quantité) */
+.info-ligne {
+  display: flex;
+  justify-content: space-between; /* Écarte le label et la valeur */
+  align-items: center;
+  width: 80%; /* Prend pas toute la largeur pour faire joli */
+  font-size: 18px;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Le champ de saisie quantité */
+input[type="number"] {
+  width: 80px;
+  padding: 5px;
+  font-size: 16px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  text-align: center;
 }

@@ -25,5 +25,12 @@ class Modele {
         $sth->execute(['id' => $idFamille]);
         return $sth->fetchAll(PDO::FETCH_OBJ);
     }
+    
+    public function getProduit($idProduit) {
+        $sql = "SELECT * FROM produit WHERE IdProduit = :id";
+        $sth = $this->bdd->prepare($sql);
+        $sth->execute(['id' => $idProduit]);
+        return $sth->fetch(PDO::FETCH_OBJ); // On utilise fetch() car on veut une seule ligne
+    }
 }
 ?>

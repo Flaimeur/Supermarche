@@ -14,12 +14,13 @@ $produits = $modele->getProduitsParFamille($idFamille);
 </head>
 <body>
 
-    <form action="panier.php" method="GET">
+    <form action="quantite.php" method="GET">
+        
         <div class="container">
             <div class="titre-1">Bienvenue au supermarché 2.0</div>
             <div class="titre-2">Choix du produit</div>
 
-            <select name="produit" size="5" required>
+            <select name="produit" size="15" required>
                 <?php if(count($produits) > 0): ?>
                     <?php foreach ($produits as $p): ?>
                         <option value="<?= $p->IdProduit ?>">
@@ -33,10 +34,11 @@ $produits = $modele->getProduitsParFamille($idFamille);
 
             <div class="zone-boutons">
                 <a href="Passer_commande.php" class="bouton-menu">Retour</a>
-                <button type="submit" class="bouton-menu">Valider</button>
+                <button type="submit" class="bouton-menu btn-blue">Valider</button>
                 <button type="reset" class="bouton-menu btn-danger">Annuler</button>
             </div>
         </div>
+
     </form>
 
 </body>
