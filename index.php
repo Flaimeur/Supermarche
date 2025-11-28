@@ -11,10 +11,10 @@
     <h1 class="titre-2">Page d'Accueil</h1>
 
     <div class="container">
-        <button herf="Passer commande.php" class="bouton-commande">Passer une commande</button> <br>        
-        <button class="bouton-acces-compte">Accéder à votre compte</button> <br>
-        <button class="bouton-incription">Incrivez vous et découvrez les avanteges de la carte fidélité</button> <br>
-        <button class="bouton-gestion-données">Gestion de la base de données</button> <br>
+        <button herf="Passer commande.php" class="bouton-commande"><a href="passer commande.php">Passer une commande</a></button> <br>        
+        <button class="bouton-acces-compte"> <a href="">Accéder à votre compte</a></button> <br>
+        <button class="bouton-incription"> <a href="">Incrivez vous et découvrez les avanteges de la carte fidélité</a></button> <br>
+        <button class="bouton-gestion-données"> <a href="">Gestion de la base de données</a></button> <br>
     </div>
     
 </body>
