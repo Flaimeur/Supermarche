@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
     <h1 class="titre-1">Bienvenue au supermarché 2.0</h1>
     <p class="titre-2">Choix de famille de produits</p>
 
@@ -21,6 +22,7 @@
         <a href="index.php" class="bouton-menu btn-danger">Annuler</a>
         
     </div>
+
 
 </body>
 </html>
