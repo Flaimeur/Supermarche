@@ -11,7 +11,7 @@
     <h1 class="titre-2">Page d'Accueil</h1>
 
     <div class="container">
-        <button herf="Passer commande.php" class="bouton-commande">Passer une commande</button> <br>        
+        <button herf="Passer_commande.php" class="bouton-commande">Passer une commande</button> <br>        
         <button class="bouton-acces-compte">Accéder à votre compte</button> <br>
         <button class="bouton-incription">Incrivez vous et découvrez les avanteges de la carte fidélité</button> <br>
         <button class="bouton-gestion-données">Gestion de la base de données</button> <br>
