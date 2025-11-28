@@ -1,15 +1,16 @@
+/* --- CONFIGURATION GÉNÉRALE --- */
 body {
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  background-color: #f4f6f8; /* Fond gris très doux (plus moderne que le blanc pur) */
+  display: flex;
   justify-content: center;
-  padding-top: 150px;
+  align-items: center; /* Centre verticalement aussi */
+  min-height: 100vh; /* Prend toute la hauteur de l'écran */
+  margin: 0;
+  color: #333; /* Texte gris foncé (moins agressif que le noir pur) */
 }
 
-select {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
+/* On s'assure que tout hérite de la belle police */
 button,
 select,
 input,
@@ -17,66 +18,110 @@ option {
   font-family: inherit;
 }
 
-/* --- Rappel des classes précédentes (déjà dans ton fichier) --- */
-.titre-1,
-.titre-2 {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
+/* --- LA BOITE PRINCIPALE (CARTE) --- */
 .container {
-  margin: 20px auto;
-  width: 300px;
-  padding: 20px;
-  border: 1px solid #ddd;
+  background-color: #fff; /* Fond blanc */
+  width: 450px; /* Un peu plus large pour respirer */
+  padding: 40px; /* Beaucoup d'espace intérieur */
+  border-radius: 12px; /* Coins arrondis modernes */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre portée élégante */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  gap: 25px; /* Espace entre les éléments (Titre, Liste, Boutons) */
+  border: none; /* On enlève la bordure grise moche */
 }
 
-/* --- Le style standard des boutons --- */
-.bouton-menu {
-  display: block;
-  width: 100%;
-  padding: 12px;
+/* --- LES TITRES --- */
+.titre-1 {
   text-align: center;
-  background-color: #f0f0f0; /* Gris clair */
-  border: 1px solid #ccc;
+  font-size: 24px; /* Grand titre */
+  font-weight: 700; /* Gras */
+  color: #2c3e50; /* Bleu nuit */
+  margin: 0;
+}
+
+.titre-2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #7f8c8d; /* Gris moyen */
+  border-bottom: 2px solid #f0f0f0; /* Ligne de séparation subtile */
+  padding-bottom: 15px;
+  width: 100%;
+}
+
+/* --- LA LISTE DÉROULANTE (LISTBOX) --- */
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px; /* Texte plus grand dans la liste */
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
+  outline: none; 
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  border-color: #3498db; /* Devient bleu quand on clique dessus */
+  background-color: #fff;
+}
+
+/* --- ZONE DES BOUTONS --- */
+.zone-boutons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px; /* Espace entre les boutons */
+}
+
+/* --- STYLE DES BOUTONS (BASE) --- */
+.bouton-menu {
+  flex: 1; /* Les boutons se partagent la largeur */
+  padding: 12px 10px; /* Boutons plus hauts */
+  font-size: 15px; /* Texte lisible */
+  font-weight: 600; /* Texte un peu gras */
+  text-align: center;
   text-decoration: none;
-  color: black;
-  border-radius: 5px;
+  border-radius: 8px; /* Coins arrondis */
   cursor: pointer;
-  box-sizing: border-box; /* Important pour que le padding ne casse pas la largeur */
+  border: none; /* Pas de bordure classique */
+  transition: all 0.2s ease; /* Animation fluide au survol */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.bouton-menu:hover {
-  background-color: #e0e0e0;
+/* 1. BOUTON RETOUR (Gris) */
+a.bouton-menu {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  display: flex; /* Pour bien centrer le texte verticalement */
+  align-items: center;
+  justify-content: center;
+}
+a.bouton-menu:hover {
+  background-color: #bdc3c7;
 }
 
-/* --- NOUVEAU : Un style spécifique pour le bouton Annuler (Rouge) --- */
+/* 2. BOUTON VALIDER (Bleu - Action principale) */
+button[type="submit"].bouton-menu {
+  background-color: #3498db; /* Bleu */
+  color: white;
+}
+button[type="submit"].bouton-menu:hover {
+  background-color: #2980b9; /* Bleu plus foncé */
+  transform: translateY(-2px); /* Petit effet de soulèvement */
+}
+
+/* 3. BOUTON ANNULER (Rouge - Danger) */
 .btn-danger {
-  background-color: #ffcccc; /* Fond rouge clair */
-  border-color: #ff0000;
-  color: #cc0000;
+  background-color: #ffebee; /* Rouge très clair */
+  color: #c0392b; /* Texte rouge foncé */
+  border: 1px solid #ffcdd2; /* Bordure rouge subtile */
 }
 
 .btn-danger:hover {
-  background-color: #ff9999; /* Rouge plus foncé au survol */
-}
-
-.zone-boutons {
-  display: flex; /* Active le mode alignement */
-  flex-direction: row; /* Force l'alignement de gauche à droite */
-  justify-content: space-between; /* Espace les boutons équitablement */
-  width: 100%; /* Prend toute la largeur du cadre */
-  gap: 5px; /* Petit écart entre chaque bouton */
-}
-
-/* On force les boutons à l'intérieur à se partager la place */
-.zone-boutons .bouton-menu {
-  flex: 1; /* Chaque bouton prendra 1/3 de la place */
-  width: auto; /* On annule la largeur 100% précédente */
-  padding: 10px 2px; /* On réduit un peu les marges internes */
-  font-size: 14px; /* On réduit un peu la police pour que ça rentre */
+  background-color: #ef5350; /* Rouge vif au survol */
+  color: white; /* Texte devient blanc */
+  border-color: #ef5350;
 }

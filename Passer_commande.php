@@ -18,11 +18,11 @@ $familles = $modele->getFamilles();
             <div class="titre-1">Bienvenue au supermarché 2.0</div>
             <div class="titre-2">Choix de la famille de produits</div>
 
-            <select name="famille" size="5" required>
+            <select name="famille" size="6" required>
                 <?php foreach ($familles as $f): ?>
                     <option value="<?= $f->IdFamille ?>">
-                        <?= htmlspecialchars($f->NomFamille) ?>
-                    </option>
+                <?= htmlspecialchars($f->NomFamille) ?>
+                </option>
                 <?php endforeach; ?>
             </select>
 
