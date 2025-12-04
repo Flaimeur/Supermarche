@@ -17,7 +17,7 @@
         
         <a href="#" class="bouton-menu">Accéder à votre compte</a>
         
-        <a href="#" class="bouton-menu">Inscrivez-vous et découvrez les avantages de la carte fidélité</a>
+        <a href="inscription.php" class="bouton-menu">Inscrivez-vous et découvrez les avantages de la carte fidélité</a>
         
         <hr style="width: 100%; border: 0; border-top: 1px solid #eee; margin: 10px 0;">
 

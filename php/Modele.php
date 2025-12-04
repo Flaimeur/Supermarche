@@ -32,5 +32,25 @@ class Modele {
         $sth->execute(['id' => $idProduit]);
         return $sth->fetch(PDO::FETCH_OBJ); // On utilise fetch() car on veut une seule ligne
     }
+    
+    // Inscription d'un nouveau client
+    public function ajouterClient($nom, $prenom, $adresse, $ville, $cp, $mdp, $dateNaissance, $motMagique) {
+        // On insère le client. 'point' est mis à 0 par défaut.
+        $sql = "INSERT INTO adherent (Nom, Prenom, Adresse, Ville, CodePostal, MotDePasse, Date_naissance, point, MotMagique) 
+                VALUES (:nom, :prenom, :adresse, :ville, :cp, :mdp, :dateN, 0, :motMagique)";
+        
+        $sth = $this->bdd->prepare($sql);
+        
+        return $sth->execute([
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'adresse' => $adresse,
+            'ville' => $ville,
+            'cp' => $cp,
+            'mdp' => $mdp,
+            'dateN' => $dateNaissance,
+            'motMagique' => $motMagique
+        ]);
+    }
 }
 ?>

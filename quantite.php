@@ -33,8 +33,12 @@ if (!$produit) {
             <div class="produit-info">
                 <h3 style="margin: 0; color: #3498db;"><?= htmlspecialchars($produit->NomProd) ?></h3>
 
-                <div class="image-box">Image du produit</div>
+                <?php $imageSrc = !empty($produit->Image) ? "img/" . $produit->Image : "img/default.png"; ?>
 
+                <div class="image-box" style="background: white;">
+                    <img src="<?= $imageSrc ?>" alt="<?= htmlspecialchars($produit->NomProd) ?>" style="max-width:100%; max-height:100%;">
+                </div>
+                
                 <div class="info-ligne">
                     <span>Prix unitaire :</span>
                     <strong><?= $produit->Prix ?> €</strong>
