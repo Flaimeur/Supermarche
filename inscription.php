@@ -1,14 +1,28 @@
 <?php
 require_once 'php/Modele.php';
 
+// Calcul de la date limite pour le champ HTML (interdit de cliquer après cette date)
+$dateMajorite = date('Y-m-d', strtotime('-18 years'));
+
 $message = "";
 
 // Si le formulaire est envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Vérification simple du mot de passe
-    if ($_POST['mdp'] !== $_POST['confirm_mdp']) {
+    
+    // 1. On calcule l'âge côté serveur (Sécurité)
+    $dateNaissance = new DateTime($_POST['date_naissance']);
+    $aujourdhui = new DateTime();
+    $age = $aujourdhui->diff($dateNaissance)->y;
+
+    // 2. Vérifications
+    if ($age < 18) {
+        $message = "Vous devez être majeur pour vous inscrire.";
+    } 
+    elseif ($_POST['mdp'] !== $_POST['confirm_mdp']) {
         $message = "Les mots de passe ne correspondent pas.";
-    } else {
+    } 
+    else {
+        // 3. Tout est bon, on enregistre
         $modele = new Modele();
         $ok = $modele->ajouterClient(
             $_POST['nom'],
@@ -22,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         if ($ok) {
-            // Redirection vers l'accueil après succès (ou message de succès)
             echo "<script>alert('Inscription réussie !'); window.location='index.php';</script>";
             exit();
         } else {
@@ -59,7 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-    <div class="facture-container" style="width: 800px;"> <div class="header-box title">Bienvenue au supermarché 2.0</div>
+    <div class="facture-container" style="width: 800px;"> 
+        
+        <div class="header-box title">Bienvenue au supermarché 2.0</div>
         <div class="header-box subtitle">Inscription</div>
 
         <h3 style="text-align: center; font-weight: normal; margin-bottom: 20px;">
@@ -75,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="input-row">
                     <label>Votre Numéro</label>
-                    <input type="text" disabled placeholder="(Automatique)">
+                    <input type="text" disabled placeholder="(Automatique)"  style="background-color: #e0e0e0; color: #66666675; cursor: not-allowed;">
                 </div>
 
                 <div class="input-row">
@@ -115,12 +130,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="input-row">
                     <label>Votre Date de Naissance</label>
-                    <input type="date" name="date_naissance" required>
+                    <input type="date" name="date_naissance" required max="<?= $dateMajorite ?>">
                 </div>
 
                 <div class="input-row">
                     <label>Vos points</label>
-                    <input type="text" value="0" readonly>
+                    <input type="text" value="0" readonly style="background-color: #e0e0e0; color: #66666675; cursor: not-allowed;">
                 </div>
 
                 <div class="input-row">
