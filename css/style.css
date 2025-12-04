@@ -170,3 +170,209 @@ input[type="number"] {
   border-radius: 5px;
   text-align: center;
 }
+/* --- STYLE FACTURE MODERNE (REMPLACEMENT) --- */
+
+/* Le grand cadre principal (Style Carte) */
+.facture-container {
+  background-color: #fff;
+  width: 900px; /* Largeur confortable */
+  max-width: 95%;
+  margin: 30px auto;
+  padding: 40px;
+  border-radius: 12px; /* Coins arrondis */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  border: none; /* Plus de bordure grise moche */
+  font-family: inherit;
+}
+
+/* --- EN-TÊTES --- */
+.header-box {
+  border: none; /* On enlève les cadres */
+  text-align: center;
+  padding: 5px;
+  color: #2c3e50;
+}
+.header-box.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+.header-box.subtitle {
+  font-size: 18px;
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f0f0f0; /* Ligne de séparation subtile */
+  padding-bottom: 15px;
+}
+
+/* --- ZONE INFORMATIONS --- */
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.col-gauche {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Style des champs "Label : Input" */
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.input-row label {
+  text-align: right;
+  margin-right: 15px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+  width: 140px;
+}
+.input-row input {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px; /* Arrondi */
+  background-color: #fafafa;
+  padding: 6px 10px;
+  width: 140px;
+  font-size: 14px;
+  color: #333;
+}
+
+.col-centre {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2c3e50;
+  padding-top: 20px;
+}
+
+.col-droite {
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* --- LE TABLEAU MODERNE --- */
+table.table-filaire {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: none;
+}
+
+table.table-filaire th {
+  background-color: #f4f6f8; /* Fond gris clair */
+  color: #7f8c8d;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding: 15px;
+  border: none;
+  border-radius: 6px 6px 0 0; /* Arrondi en haut */
+}
+
+table.table-filaire td {
+  padding: 15px;
+  border: none;
+  border-bottom: 1px solid #eee; /* Ligne fine */
+  color: #333;
+  font-size: 16px;
+}
+
+/* Case vide plus petite et propre */
+.vide-hauteur {
+  height: 150px;
+  border: none !important;
+}
+
+/* --- TOTAUX --- */
+.totaux-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+.total-row label {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #555;
+}
+.total-row input {
+  border: none;
+  background: transparent;
+  text-align: right;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c3e50;
+  width: 120px;
+}
+/* Le dernier input (Total TTC) en bleu */
+.total-row:last-child input {
+  color: #3498db;
+  font-size: 20px;
+}
+
+/* --- BOUTONS (Style Arrondi comme les autres pages) --- */
+.boutons-grid-filaire {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  border-top: none;
+  gap: 10px;
+}
+
+/* Transformation des boutons carrés en boutons arrondis */
+.btn-carre {
+  border: none;
+  border-radius: 8px; /* Arrondi */
+  background-color: #ecf0f1; /* Gris par défaut */
+  color: #2c3e50;
+  width: auto;
+  flex: 1; /* Ils prennent toute la place dispo */
+  height: auto;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.btn-carre:hover {
+  background-color: #bdc3c7;
+  transform: translateY(-2px);
+}
+
+/* Astuce CSS pour colorer les boutons sans toucher au PHP */
+
+/* Le dernier bouton (Imprimer) en BLEU */
+.boutons-grid-filaire > :last-child {
+  background-color: #3498db;
+  color: white;
+}
+.boutons-grid-filaire > :last-child:hover {
+  background-color: #2980b9;
+}
+
+/* Les boutons Annuler (3ème et 4ème position) en ROUGE */
+.boutons-grid-filaire > :nth-child(3),
+.boutons-grid-filaire > :nth-child(4) {
+  background-color: #ffebee;
+  color: #c0392b;
+}
+.boutons-grid-filaire > :nth-child(3):hover,
+.boutons-grid-filaire > :nth-child(4):hover {
+  background-color: #ef5350;
+  color: white;
+}
