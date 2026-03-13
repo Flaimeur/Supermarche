@@ -12,77 +12,70 @@ $produits = $modele->getProduitsParFamille($idFamille);
     <title>Choix du produit</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .selection-wrapper {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-        #preview-img {
-            width: 150px;
-            height: 150px;
+        .product-img {
+            width: 120px;
+            height: 120px;
             object-fit: contain;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            display: none; /* Caché au début */
+            margin-bottom: 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            transition: var(--transition);
+        }
+        
+        .nav-card:hover .product-img {
+            transform: scale(1.1) translateY(-5px);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        }
+
+        .product-title {
+            font-weight: 700;
+            font-size: 1.15rem;
+            text-align: center;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .product-price {
+            color: #f1c40f;
+            font-weight: 900;
+            font-size: 1.25rem;
+            background: rgba(241, 196, 15, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(241, 196, 15, 0.3);
         }
     </style>
 </head>
 <body>
 
-    <form action="quantite.php" method="GET">
-        
-        <div class="container">
-            <div class="titre-1">Bienvenue au supermarché 2.0</div>
-            <div class="titre-2">Choix du produit</div>
+    <div class="container" style="max-width: 1100px;">
+        <div class="titre-1">Nos Produits</div>
+        <div class="titre-2">Sélectionnez l'article de votre choix</div>
 
-            <div class="selection-wrapper">
-                
-                <select id="listeProduits" name="produit" size="15" required style="flex: 1;">
-                    <?php if(count($produits) > 0): ?>
-                        <?php foreach ($produits as $p): ?>
-                            <?php $img = !empty($p->Image) ? $p->Image : 'default.png'; ?>
-                            
-                            <option value="<?= $p->IdProduit ?>" data-img="<?= $img ?>">
-                                <?= htmlspecialchars($p->NomProd) ?> - <?= $p->Prix ?> €
-                            </option>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <option disabled>Aucun produit ici</option>
-                    <?php endif; ?>
-                </select>
-
-                <img id="preview-img" src="" alt="Aperçu produit">
-                
-            </div>
-
-            <div class="zone-boutons">
-                <a href="Passer_commande.php" class="bouton-menu">Retour</a>
-                <button type="submit" class="bouton-menu btn-blue">Valider</button>
-                <button type="reset" class="bouton-menu btn-danger">Annuler</button>
-            </div>
+        <div class="nav-grid">
+            <?php if(count($produits) > 0): ?>
+                <?php foreach ($produits as $p): ?>
+                    <?php $img = !empty($p->Image) ? $p->Image : 'default.png'; ?>
+                    
+                    <a href="quantite.php?produit=<?= $p->IdProduit ?>" class="nav-card" style="padding: 30px 20px;">
+                        <img src="img/<?= htmlspecialchars($img) ?>" class="product-img" alt="<?= htmlspecialchars($p->NomProd) ?>" onerror="this.src='img/default.png'">
+                        <span class="product-title"><?= htmlspecialchars($p->NomProd) ?></span>
+                        <span class="product-price"><?= number_format($p->Prix, 2) ?> €</span>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: rgba(255,255,255,0.05); border-radius: 20px;">
+                    <span style="font-size: 3rem; display: block; margin-bottom: 10px;">🛒</span>
+                    <p style="color: var(--text-dim); font-size: 1.2rem;">Aucun produit disponible dans ce rayon pour le moment.</p>
+                </div>
+            <?php endif; ?>
         </div>
 
-    </form>
-
-    <script>
-        const select = document.getElementById('listeProduits');
-        const img = document.getElementById('preview-img');
-
-        select.addEventListener('change', function() {
-            // On récupère l'option sélectionnée
-            const option = select.options[select.selectedIndex];
-            
-            // On récupère le nom de l'image stocké dans data-img
-            const imageFile = option.getAttribute('data-img');
-            
-            // 3. On met à jour la source de l'image
-            if (imageFile) {
-                img.src = "img/" + imageFile; 
-                img.style.display = "block";  
-            }
-        });
-    </script>
+        <div class="zone-boutons" style="justify-content: center; margin-top: 40px;">
+            <a href="Passer_commande.php" class="btn-carre" style="max-width: 250px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">⬅️ Retour aux rayons</a>
+        </div>
+    </div>
 
 </body>
 </html>

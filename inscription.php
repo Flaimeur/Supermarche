@@ -72,14 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-    <div class="facture-container" style="width: 800px;"> 
+    <div class="container" style="max-width: 850px;"> 
         
-        <div class="header-box title">Bienvenue au supermarché 2.0</div>
-        <div class="header-box subtitle">Inscription</div>
+        <div class="titre-1">SUPERMARCHÉ 2.0</div>
+        <div class="titre-2">Inscription</div>
 
-        <h3 style="text-align: center; font-weight: normal; margin-bottom: 20px;">
+        <p style="text-align: center; color: var(--text-dim); margin-bottom: 30px;">
             Veuillez saisir les informations vous concernant
-        </h3>
+        </p>
 
         <?php if($message): ?>
             <p style="color: red; text-align: center; font-weight: bold;"><?= $message ?></p>
