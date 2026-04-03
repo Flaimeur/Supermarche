@@ -80,11 +80,22 @@
                 <span>Carte Fidélité / Inscription</span>
             </a>
             
-            <?php if(isset($_SESSION['client']) && $_SESSION['client']->EstAdmin == 1): ?>
-                <a href="admin_gestion.php" class="nav-card">
-                    <div class="emoji">⚙️</div>
-                    <span>Gestion BD</span>
-                </a>
+            <?php if(isset($_SESSION['client'])): ?>
+                <?php $role = $_SESSION['client']->role; ?>
+                
+                <?php if($role === 'super_admin' || $role === 'admin_comptes'): ?>
+                    <a href="admin_gestion.php" class="nav-card">
+                        <div class="emoji">👥</div>
+                        <span>Gestion Comptes</span>
+                    </a>
+                <?php endif; ?>
+
+                <?php if($role === 'super_admin' || $role === 'admin_produits' || $role === 'admin_prix'): ?>
+                    <a href="admin_produits.php" class="nav-card">
+                        <div class="emoji">📦</div>
+                        <span>Gestion Produits</span>
+                    </a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 

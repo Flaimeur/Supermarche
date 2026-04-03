@@ -87,7 +87,7 @@ MotDePasse       NomProd
 Date_naissance   Prix
 point            IdFamille (FK → famille)
 MotMagique       Image
-EstAdmin
+role (client, admin_produits, admin_prix, admin_comptes, super_admin)
                  facture           contenir
                  ────────          ────────
                  NumFacture (PK)   NumFacture (FK)
@@ -145,16 +145,15 @@ EstAdmin
 
 ---
 
-## 🔑 Comptes de test
-
-| ID Client | Nom | Prénom | Mot de passe | Rôle |
+## | ID Client | Nom | Prénom | Mot de passe | Rôle |
 |---|---|---|---|---|
-| `1` | toto | tata | `azerty1` | Client |
-| `2` | lola | marko | `azerty2` | Client |
-| `4` | bombe | yanis | `azerty3` | Client |
-| `5` | ONEPIECE | Tina | `1234AZER` | Client |
+| `1` | toto | tata | `azerty1` | `client` |
+| `2` | lola | marko | `azerty2` | `admin_produits` |
+| `3` | lola | marko | `azerty2` | `admin_prix` |
+| `4` | bombe | yanis | `azerty3` | `admin_comptes` |
+| `5` | ONEPIECE | Tina | `1234AZER` | `super_admin` |
 
-> **Note :** Pour accéder au panneau d'administration, le champ `EstAdmin` doit être mis à `1` dans la table `adherent` via phpMyAdmin.
+> **Note :** Le niveau d'accès est désormais géré par le champ `role` (ex: `super_admin` pour l'accès total).
 
 ---
 

@@ -3,7 +3,12 @@ session_start();
 require_once 'php/Modele.php';
 
 // Sécurité : Seuls les admins peuvent voir cette page
-if (!isset($_SESSION['client']) || $_SESSION['client']->EstAdmin != 1) {
+// Sécurité : Seuls les admins autorisés peuvent voir cette page
+$role_sess = $_SESSION['client']->role ?? 'client';
+$can_manage_catalog = ($role_sess === 'super_admin' || $role_sess === 'admin_produits');
+$can_edit_prices = ($role_sess === 'super_admin' || $role_sess === 'admin_prix');
+
+if (!isset($_SESSION['client']) || ($role_sess !== 'super_admin' && $role_sess !== 'admin_produits' && $role_sess !== 'admin_prix')) {
     header('Location: index.php');
     exit();
 }
@@ -24,10 +29,12 @@ if (!$produit) {
 
 // Traitement de la modification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = $_POST['nom'];
-    $prix = $_POST['prix'];
-    $idFamille = $_POST['idFamille'];
-    $image = !empty($_POST['image']) ? $_POST['image'] : 'default.png';
+    // Si l'utilisateur est admin_prix, il ne peut modifier QUE le prix.
+    // On récupère les autres données du produit existant pour ne pas les écraser par erreur.
+    $nom = $can_manage_catalog ? $_POST['nom'] : $produit->NomProd;
+    $prix = $can_edit_prices ? $_POST['prix'] : $produit->Prix;
+    $idFamille = $can_manage_catalog ? $_POST['idFamille'] : $produit->IdFamille;
+    $image = $can_manage_catalog ? (!empty($_POST['image']) ? $_POST['image'] : 'default.png') : $produit->Image;
 
     $ok = $modele->modifierProduit(
         $_POST['id'],
@@ -117,28 +124,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Nom du Produit</label>
-                        <input type="text" name="nom" value="<?= htmlspecialchars($produit->NomProd) ?>" required>
+                        <input type="text" name="nom" value="<?= htmlspecialchars($produit->NomProd) ?>" required <?= !$can_manage_catalog ? 'readonly style="opacity: 0.6; cursor: not-allowed;"' : '' ?>>
                     </div>
                     
                     <div class="input-group">
                         <label>Prix (en €)</label>
-                        <input type="number" step="0.01" name="prix" value="<?= $produit->Prix ?>" required>
+                        <input type="number" step="0.01" name="prix" value="<?= $produit->Prix ?>" required <?= !$can_edit_prices ? 'readonly style="opacity: 0.6; cursor: not-allowed;"' : '' ?>>
                     </div>
                     
                     <div class="input-group">
                         <label>Rayon (Famille)</label>
-                        <select name="idFamille" required>
+                        <select name="idFamille" required <?= !$can_manage_catalog ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : '' ?>>
                             <?php foreach ($familles as $f): ?>
                                 <option value="<?= $f->IdFamille ?>" <?= ($f->IdFamille == $produit->IdFamille) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($f->NomFamille) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <?php if(!$can_manage_catalog): ?>
+                             <!-- On ajoute un champ caché car un <select disabled> n'est pas envoyé en POST -->
+                             <input type="hidden" name="idFamille" value="<?= $produit->IdFamille ?>">
+                        <?php endif; ?>
                     </div>
 
                     <div class="input-group">
                         <label>Nom de l'Image</label>
-                        <input type="text" name="image" value="<?= htmlspecialchars($produit->Image) ?>" placeholder="Ex: image.png">
+                        <input type="text" name="image" value="<?= htmlspecialchars($produit->Image) ?>" placeholder="Ex: image.png" <?= !$can_manage_catalog ? 'readonly style="opacity: 0.6; cursor: not-allowed;"' : '' ?>>
                     </div>
                 </div>
 

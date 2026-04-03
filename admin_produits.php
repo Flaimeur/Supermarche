@@ -3,7 +3,12 @@ session_start();
 require_once 'php/Modele.php';
 
 // Sécurité : Seuls les admins peuvent voir cette page
-if (!isset($_SESSION['client']) || $_SESSION['client']->EstAdmin != 1) {
+// Sécurité : Seuls les admins autorisés peuvent voir cette page
+$role_sess = $_SESSION['client']->role ?? 'client';
+$can_manage_catalog = ($role_sess === 'super_admin' || $role_sess === 'admin_produits');
+$can_edit_prices = ($role_sess === 'super_admin' || $role_sess === 'admin_prix');
+
+if (!isset($_SESSION['client']) || ($role_sess !== 'super_admin' && $role_sess !== 'admin_produits' && $role_sess !== 'admin_prix')) {
     header('Location: index.php');
     exit();
 }
@@ -12,13 +17,18 @@ $modele = new Modele();
 $notif = "";
 
 // Traitement de la suppression
+// Traitement de la suppression (Uniquement réservé aux admins produits / super_admin)
 if (isset($_GET['delete'])) {
-    $id_to_delete = $_GET['delete'];
-    $res = $modele->supprimerProduit($id_to_delete);
-    if ($res === true) {
-        $notif = "Produit #$id_to_delete supprimé avec succès.";
+    if (!$can_manage_catalog) {
+        $notif = "Erreur : Vous n'avez pas les droits pour supprimer un produit.";
     } else {
-        $notif = "Erreur lors de la suppression du produit.";
+        $id_to_delete = $_GET['delete'];
+        $res = $modele->supprimerProduit($id_to_delete);
+        if ($res === true) {
+            $notif = "Produit #$id_to_delete supprimé avec succès.";
+        } else {
+            $notif = "Erreur lors de la suppression du produit.";
+        }
     }
 }
 
@@ -131,9 +141,11 @@ $produits = $modele->getAllProduitsWithFamille();
         <?php endif; ?>
 
         <div style="display: flex; gap: 15px; margin-bottom: 25px; justify-content: center;">
-            <a href="admin_gestion.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
-                👥 Gestion Utilisateurs
-            </a>
+            <?php if($role_sess === 'super_admin' || $role_sess === 'admin_comptes'): ?>
+                <a href="admin_gestion.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
+                    👥 Gestion Utilisateurs
+                </a>
+            <?php endif; ?>
             <a href="admin_produits.php" class="btn-carre" style="background: rgba(52, 152, 219, 0.2); border-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
                 📦 Gestion Produits
             </a>
@@ -143,9 +155,11 @@ $produits = $modele->getAllProduitsWithFamille();
         </div>
         
         <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-            <a href="add_produit.php" class="btn-carre" style="background: #2ecc71; border: none; color: white; max-width: 250px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);">
-                ➕ Nouveau Produit
-            </a>
+            <?php if($can_manage_catalog): ?>
+                <a href="add_produit.php" class="btn-carre" style="background: #2ecc71; border: none; color: white; max-width: 250px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);">
+                    ➕ Nouveau Produit
+                </a>
+            <?php endif; ?>
         </div>
 
         <div class="data-table-wrapper">
@@ -177,7 +191,9 @@ $produits = $modele->getAllProduitsWithFamille();
                             <td>
                                 <div class="action-btns">
                                     <a href="edit_produit.php?id=<?= $p->IdProduit ?>" class="btn-small" title="Modifier">✏️</a>
-                                    <button class="btn-small btn-delete" title="Supprimer" onclick="confirmerSuppression(<?= $p->IdProduit ?>, '<?= addslashes($p->NomProd) ?>')">🗑️</button>
+                                    <?php if($can_manage_catalog): ?>
+                                        <button class="btn-small btn-delete" title="Supprimer" onclick="confirmerSuppression(<?= $p->IdProduit ?>, '<?= addslashes($p->NomProd) ?>')">🗑️</button>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

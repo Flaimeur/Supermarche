@@ -3,7 +3,9 @@ session_start();
 require_once 'php/Modele.php';
 
 // Sécurité : Seuls les admins peuvent voir cette page
-if (!isset($_SESSION['client']) || $_SESSION['client']->EstAdmin != 1) {
+// Sécurité : Seuls les admins autorisés peuvent voir cette page
+$role_sess = $_SESSION['client']->role ?? 'client';
+if (!isset($_SESSION['client']) || ($role_sess !== 'super_admin' && $role_sess !== 'admin_produits')) {
     header('Location: index.php');
     exit();
 }

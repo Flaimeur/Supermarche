@@ -3,7 +3,9 @@ session_start();
 require_once 'php/Modele.php';
 
 // Sécurité : Seuls les admins peuvent voir cette page
-if (!isset($_SESSION['client']) || $_SESSION['client']->EstAdmin != 1) {
+// Sécurité : Seuls les admins autorisés peuvent voir cette page
+$role_sess = $_SESSION['client']->role ?? 'client';
+if (!isset($_SESSION['client']) || ($role_sess !== 'super_admin' && $role_sess !== 'admin_comptes')) {
     header('Location: index.php');
     exit();
 }
@@ -225,9 +227,11 @@ $clients = $modele->getAllClients();
             <a href="admin_gestion.php" class="btn-carre" style="background: rgba(52, 152, 219, 0.2); border-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
                 👥 Gestion Utilisateurs
             </a>
-            <a href="admin_produits.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
-                📦 Gestion Produits
-            </a>
+            <?php if($role_sess === 'super_admin' || $role_sess === 'admin_produits' || $role_sess === 'admin_prix'): ?>
+                <a href="admin_produits.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
+                    📦 Gestion Produits
+                </a>
+            <?php endif; ?>
             <a href="index.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 200px;">
                 🏠 Accueil
             </a>
@@ -258,11 +262,9 @@ $clients = $modele->getAllClients();
                             <span style="color: #f1c40f; font-weight: 700;"><?= $c->point ?></span> pts
                         </td>
                         <td>
-                            <?php if ($c->EstAdmin == 1): ?>
-                                <span class="badge badge-admin">Admin</span>
-                            <?php else: ?>
-                                <span class="badge badge-user">Client</span>
-                            <?php endif; ?>
+                                <span class="badge <?= ($c->role !== 'client') ? 'badge-admin' : 'badge-user' ?>">
+                                    <?= htmlspecialchars($c->role) ?>
+                                </span>
                         </td>
                         <td>
                             <div class="action-btns">

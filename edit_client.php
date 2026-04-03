@@ -3,7 +3,9 @@ session_start();
 require_once 'php/Modele.php';
 
 // Sécurité : Seuls les admins peuvent voir cette page
-if (!isset($_SESSION['client']) || $_SESSION['client']->EstAdmin != 1) {
+// Sécurité : Seuls les admins autorisés peuvent voir cette page
+$role_sess = $_SESSION['client']->role ?? 'client';
+if (!isset($_SESSION['client']) || ($role_sess !== 'super_admin' && $role_sess !== 'admin_comptes')) {
     header('Location: index.php');
     exit();
 }
@@ -31,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['ville'],
         $_POST['cp'],
         $_POST['point'],
-        isset($_POST['estAdmin']) ? 1 : 0
+        $_POST['role']
     );
 
     if ($ok) {
@@ -157,11 +159,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Points Fidélité</label>
                         <input type="number" name="point" value="<?= $client->point ?>" required>
                     </div>
-                    
-                    <label class="checkbox-group">
-                        <input type="checkbox" name="estAdmin" <?= $client->EstAdmin ? 'checked' : '' ?>>
-                        <span style="color: var(--primary); font-weight: 700;">Accès Administrateur</span>
-                    </label>
+
+                    <div class="input-group full-width">
+                        <label>Rôle de l'utilisateur</label>
+                        <select name="role" required style="background: rgba(52, 152, 219, 0.1); border: 1px solid rgba(52, 152, 219, 0.2); color: var(--primary); font-weight: 700;">
+                            <option value="client" <?= $client->role === 'client' ? 'selected' : '' ?>>👤 Client Standard</option>
+                            <option value="admin_produits" <?= $client->role === 'admin_produits' ? 'selected' : '' ?>>📦 Admin Articles (Ajout)</option>
+                            <option value="admin_prix" <?= $client->role === 'admin_prix' ? 'selected' : '' ?>>🏷️ Admin Prix (Edition)</option>
+                            <option value="admin_comptes" <?= $client->role === 'admin_comptes' ? 'selected' : '' ?>>👥 Admin Comptes Clients</option>
+                            <option value="super_admin" <?= $client->role === 'super_admin' ? 'selected' : '' ?>>👑 Super Administrateur</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="zone-boutons" style="margin-top: 30px; gap: 20px;">

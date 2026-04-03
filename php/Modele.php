@@ -36,8 +36,8 @@ class Modele {
     // Inscription d'un nouveau client
     public function ajouterClient($nom, $prenom, $adresse, $ville, $cp, $mdp, $dateNaissance, $motMagique) {
         // On insère le client. 'point' est mis à 0 par défaut.
-        $sql = "INSERT INTO adherent (Nom, Prenom, Adresse, Ville, CodePostal, MotDePasse, Date_naissance, point, MotMagique) 
-                VALUES (:nom, :prenom, :adresse, :ville, :cp, :mdp, :dateN, 0, :motMagique)";
+        $sql = "INSERT INTO adherent (Nom, Prenom, Adresse, Ville, CodePostal, MotDePasse, Date_naissance, point, MotMagique, role) 
+                VALUES (:nom, :prenom, :adresse, :ville, :cp, :mdp, :dateN, 0, :motMagique, 'client')";
         
         $sth = $this->bdd->prepare($sql);
         
@@ -81,7 +81,7 @@ class Modele {
     }
 
     // Modifier un client
-    public function modifierClient($id, $nom, $prenom, $adresse, $ville, $cp, $point, $estAdmin) {
+    public function modifierClient($id, $nom, $prenom, $adresse, $ville, $cp, $point, $role) {
         $sql = "UPDATE adherent SET 
                 Nom = :nom, 
                 Prenom = :prenom, 
@@ -89,7 +89,7 @@ class Modele {
                 Ville = :ville, 
                 CodePostal = :cp, 
                 point = :point, 
-                EstAdmin = :estAdmin 
+                role = :role 
                 WHERE IdClient = :id";
         $sth = $this->bdd->prepare($sql);
         return $sth->execute([
@@ -100,7 +100,7 @@ class Modele {
             'ville' => $ville,
             'cp' => $cp,
             'point' => $point,
-            'estAdmin' => $estAdmin
+            'role' => $role
         ]);
     }
 
