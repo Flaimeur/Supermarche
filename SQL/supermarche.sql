@@ -50,7 +50,8 @@ INSERT INTO `adherent` (`IdClient`, `Nom`, `Prenom`, `Adresse`, `Ville`, `CodePo
 (2, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL, 'admin_produits'),
 (3, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL, 'admin_prix'),
 (4, 'bombe', 'yanis', '13 rue lecourbe', 'paris', NULL, 'azerty3', '2002-04-12', 29, NULL, 'admin_comptes'),
-(5, 'ONEPIECE', 'Tina', '10 truc much', 'PARIS', '75015', '1234AZER', '2020-12-03', 0, 'MARKO', 'super_admin');
+(5, 'ONEPIECE', 'Tina', '10 truc much', 'PARIS', '75015', '1234AZER', '2020-12-03', 0, 'MARKO', 'super_admin'),
+(6, 'cleaner', 'jean', '5 rue du balai', 'Lyon', '69000', 'cleanit', '1995-10-10', 0, 'CLEAN', 'admin_suppression');
 
 -- --------------------------------------------------------
 
@@ -311,7 +312,7 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `adherent`
 --
 ALTER TABLE `adherent`
-  MODIFY `IdClient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IdClient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `facture`

@@ -1,30 +1,6 @@
-<?php
-require_once 'php/Modele.php';
-
-// On récupère l'ID du produit depuis l'URL (venant de produits.php)
-$idProduit = isset($_GET['produit']) ? $_GET['produit'] : 0;
-
-$modele = new Modele();
-$produit = $modele->getProduit($idProduit);
-
-if (!$produit) {
-    header('Location: produits.php');
-    exit();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Quantité - Supermarché</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-    <form action="facture.php" method="GET">
+    <form action="index.php?action=facture" method="POST">
         
-        <input type="hidden" name="produit" value="<?= $produit->IdProduit ?>">
+        <input type="hidden" name="idProduit" value="<?= $produit->IdProduit ?>">
 
         <div class="container" style="max-width: 650px;">
             <div class="titre-1">Panier</div>
@@ -55,10 +31,8 @@ if (!$produit) {
             </div>
 
             <div class="zone-boutons" style="justify-content: space-between; gap: 20px;">
-                <a href="produits.php?famille=<?= $produit->IdFamille ?>" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Annuler</a>
+                <a href="index.php?action=produits&famille=<?= $produit->IdFamille ?>" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Annuler</a>
                 <button type="submit" class="btn-carre btn-blue" style="font-size: 1.1rem;">🛒 Ajouter au panier</button>
             </div>
         </div>
     </form>
-</body>
-</html>

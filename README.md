@@ -45,27 +45,22 @@
 
 ```
 Supermarche/
-├── index.php               # Tableau de bord (page d'accueil)
-├── login.php               # Page de connexion
-├── logout.php              # Déconnexion (destroy session)
-├── inscription.php         # Inscription / Carte fidélité
-├── Passer_commande.php     # Choix du rayon → panier
-├── produits.php            # Catalogue produits d'un rayon
-├── quantite.php            # Saisie des quantités
-├── facture.php             # Récapitulatif / Facture
-├── admin_gestion.php       # Admin : gestion des clients
-├── admin_produits.php      # Admin : gestion des produits
-├── add_produit.php         # Admin : ajout d'un produit
-├── edit_produit.php        # Admin : modification d'un produit
-├── edit_client.php         # Admin : modification d'un client
-├── php/
+├── index.php               # Contrôleur Frontal (Routeur)
+├── models/
 │   └── Modele.php          # Couche d'accès aux données (PDO)
+├── controllers/
+│   ├── ControllerAuth.php  # Authentification & Inscription
+│   ├── ControllerCatalog.php # Navigation & Commande
+│   └── ControllerAdmin.php # Administration & Sécurité RBAC
+├── views/
+│   ├── layout.php          # Gabarit global (Design System)
+│   └── pages/              # Contenus HTML spécifiques
 ├── css/
 │   └── style.css           # Styles globaux (thème sombre)
 ├── img/                    # Images des produits
 ├── sql/
 │   └── supermarche.sql     # Dump complet de la base de données
-└── screenshots/            # Captures d'écran (README)
+└── old_files_backup/       # Archives des anciens fichiers racines
 ```
 
 ---
@@ -145,15 +140,57 @@ role (client, admin_produits, admin_prix, admin_comptes, super_admin)
 
 ---
 
-## | ID Client | Nom | Prénom | Mot de passe | Rôle |
-|---|---|---|---|---|
+## 🔑 Comptes de test
+
+| ID Client | Nom | Prénom | Mot de passe | Rôle |
+|:---:|---|---|---|---|
 | `1` | toto | tata | `azerty1` | `client` |
 | `2` | lola | marko | `azerty2` | `admin_produits` |
 | `3` | lola | marko | `azerty2` | `admin_prix` |
 | `4` | bombe | yanis | `azerty3` | `admin_comptes` |
 | `5` | ONEPIECE | Tina | `1234AZER` | `super_admin` |
+| `6` | cleaner | jean | `cleanit` | `admin_suppression` |
 
-> **Note :** Le niveau d'accès est désormais géré par le champ `role` (ex: `super_admin` pour l'accès total).
+> [!NOTE]
+> Le niveau d'accès est désormais géré par le champ `role`. Chaque administrateur a des droits restreints selon sa fonction.
+
+---
+
+## 🧪 Guide de Test des Rôles
+
+Pour vérifier le bon fonctionnement des permissions, suivez ces étapes :
+
+### 1. Préparation
+- Importez le fichier `SQL/supermarche.sql` dans votre base de données `supermarche` via phpMyAdmin (cela mettra à jour les rôles des comptes de test).
+
+### 2. Test Admin Produits (Gestion des Articles)
+- Connectez-vous avec l'ID `2` (Mot de passe: `azerty2`).
+- Cliquez sur **📦 Gestion Produits**.
+- Vérifiez que vous pouvez **ajouter** un produit et le **supprimer**.
+- En modifiant un produit, vérifiez que le champ **Prix** est verrouillé (gris).
+
+### 3. Test Admin Prix (Modification Tarifaire)
+- Connectez-vous avec l'ID `3` (Mot de passe: `azerty2`).
+- Cliquez sur **📦 Gestion Produits**.
+- Vérifiez que les boutons "Nouveau Produit" et "Supprimer" sont **masqués**.
+- En modifiant un produit, vérifiez que **seul le champ Prix** est modifiable. Tous les autres champs doivent être verrouillés.
+
+### 4. Test Admin Suppression (Nouveau rôle)
+- Connectez-vous avec l'ID `6` (Mot de passe: `cleanit`).
+- Cliquez sur **📦 Gestion Produits**.
+- Vérifiez que vous voyez l'icône de suppression (🗑️) mais **pas** le bouton "Nouveau Produit".
+- Tentez de modifier un produit : vous ne devriez pouvoir rien changer (car vous n'êtes pas admin_produits ni admin_prix).
+
+### 5. Test Admin Comptes (Gestion Adhérents)
+- Connectez-vous avec l'ID `4` (Mot de passe: `azerty3`).
+- Vérifiez que vous avez accès au bouton **👥 Gestion Comptes**.
+- Vérifiez que vous pouvez changer le rôle d'un utilisateur ou le supprimer.
+- Tentez d'accéder manuellement à `admin_produits.php` : vous devez être redirigé vers l'accueil.
+
+### 5. Test Super Admin
+- Connectez-vous avec l'ID `5` (Mot de passe: `1234AZER`).
+- Vérifiez que vous avez accès à **tout** (Comptes + Produits) et que tous les champs sont éditables.
+
 
 ---
 
@@ -170,13 +207,14 @@ role (client, admin_produits, admin_prix, admin_comptes, super_admin)
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture MVC
 
-L'application suit le pattern **MVC simplifié** :
+L'application suit désormais une architecture **MVC (Modèle-Vue-Contrôleur)** propre :
 
-- **Modèle** → `php/Modele.php` : toutes les requêtes SQL via PDO
-- **Vue** → les fichiers `.php` racine (HTML + PHP mélangés)
-- **Contrôleur** → logique intégrée dans chaque page PHP
+- **Modèle** (`models/Modele.php`) : Centralise toutes les requêtes SQL via PDO.
+- **Vues** (`views/`) : Séparation du design (`layout.php`) et du contenu (`pages/`).
+- **Contrôleurs** (`controllers/`) : Gèrent la logique métier, les calculs et la sécurité.
+- **Routeur** (`index.php`) : Analyse l'action demandée et délègue au bon contrôleur.
 
 ### Sécurités mises en place
 
