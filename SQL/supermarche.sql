@@ -37,21 +37,19 @@ CREATE TABLE `adherent` (
   `MotDePasse` varchar(100) DEFAULT NULL,
   `Date_naissance` date DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
-  `MotMagique` varchar(255) DEFAULT NULL,
-  `role` varchar(50) DEFAULT 'client'
+  `MotMagique` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `adherent`
 --
 
-INSERT INTO `adherent` (`IdClient`, `Nom`, `Prenom`, `Adresse`, `Ville`, `CodePostal`, `MotDePasse`, `Date_naissance`, `point`, `MotMagique`, `role`) VALUES
-(1, 'toto', 'tata', '11 rue lecourbe', 'paris', NULL, 'azerty1', '2005-03-17', 300, NULL, 'client'),
-(2, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL, 'admin_produits'),
-(3, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL, 'admin_prix'),
-(4, 'bombe', 'yanis', '13 rue lecourbe', 'paris', NULL, 'azerty3', '2002-04-12', 29, NULL, 'admin_comptes'),
-(5, 'ONEPIECE', 'Tina', '10 truc much', 'PARIS', '75015', '1234AZER', '2020-12-03', 0, 'MARKO', 'super_admin'),
-(6, 'cleaner', 'jean', '5 rue du balai', 'Lyon', '69000', 'cleanit', '1995-10-10', 0, 'CLEAN', 'admin_suppression');
+INSERT INTO `adherent` (`IdClient`, `Nom`, `Prenom`, `Adresse`, `Ville`, `CodePostal`, `MotDePasse`, `Date_naissance`, `point`, `MotMagique`) VALUES
+(1, 'toto', 'tata', '11 rue lecourbe', 'paris', NULL, 'azerty1', '2005-03-17', 300, NULL),
+(2, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL),
+(3, 'lola', 'marko', '12 rue lecourbe', 'paris', NULL, 'azerty2', '2005-06-21', 240, NULL),
+(4, 'bombe', 'yanis', '13 rue lecourbe', 'paris', NULL, 'azerty3', '2002-04-12', 29, NULL),
+(5, 'ONEPIECE', 'Tina', '10 truc much', 'PARIS', '75015', '1234AZER', '2020-12-03', 0, 'MARKO');
 
 -- --------------------------------------------------------
 
@@ -312,7 +310,7 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `adherent`
 --
 ALTER TABLE `adherent`
-  MODIFY `IdClient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `IdClient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `facture`
