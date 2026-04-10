@@ -1,83 +1,94 @@
-<?php
-session_start();
-require_once 'models/Modele.php';
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarché 2.0</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-// Initialisation du modèle
-$modele = new Modele();
+    <!-- Animation de lancement PRO-GRADE V2 (Centrée & Polie) -->
+    <div id="splash-screen">
+        <!-- Lignes de vitesse pro -->
+        <div class="speed-line" style="top: 15%; animation-delay: 0.1s;"></div>
+        <div class="speed-line" style="top: 45%; animation-delay: 0.3s; width: 400px;"></div>
+        <div class="speed-line" style="top: 75%; animation-delay: 0.2s;"></div>
+        
+        <h1 class="brand-reveal">Supermarché 2.0</h1>
+        
+        <div class="cart-container">
+            <div class="cart-wrapper">
+                <div class="cart-icon">🛒</div>
+            </div>
+            <div class="ground"></div>
+        </div>
+    </div>
 
-// Routage simple
-$action = isset($_GET['action']) ? $_GET['action'] : 'home';
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const splash = document.getElementById('splash-screen');
+            
+            if (sessionStorage.getItem('splashPlayed')) {
+                splash.style.display = 'none';
+            } else {
+                // Animation pro : 5.5s de trajet + fondu
+                setTimeout(() => {
+                    splash.classList.add('hidden');
+                    sessionStorage.setItem('splashPlayed', 'true');
+                    
+                    setTimeout(() => {
+                        splash.remove();
+                    }, 1500); // Plus lent fondu pour le "Pro"
+                }, 5500); 
+            }
+        });
+    </script>
 
-// Chargement des contrôleurs (en prod, on utiliserait un autoloader)
-require_once 'controllers/ControllerAuth.php';
-require_once 'controllers/ControllerCatalog.php';
-require_once 'controllers/ControllerAdmin.php';
+    <div class="container">
 
-$ctrlAuth = new ControllerAuth($modele);
-$ctrlCatalog = new ControllerCatalog($modele);
-$ctrlAdmin = new ControllerAdmin($modele);
+        <div class="titre-1">
+            <?php if(isset($_SESSION['client'])): ?>
+                Ravi de vous revoir, <?= htmlspecialchars($_SESSION['client']->Prenom) ?> !
+            <?php else: ?>
+                Bienvenue dans notre supermarché
+            <?php endif; ?>
+        </div>
+        <div class="titre-2">Tableau de bord</div>
 
-// Dispatcher
-switch ($action) {
-    case 'home':
-        $ctrlCatalog->home();
-        break;
+        <div class="nav-grid">
+            <a href="Passer_commande.php" class="nav-card accent">
+                <div class="emoji">🚀</div>
+                <span>Passer une commande</span>
+            </a>
+            
+            <?php if(isset($_SESSION['client'])): ?>
+                <a href="logout.php" class="nav-card danger">
+                    <div class="emoji">🚪</div>
+                    <span>Se déconnecter</span>
+                </a>
+            <?php else: ?>
+                <a href="login.php" class="nav-card success">
+                    <div class="emoji">🔐</div>
+                    <span>Se connecter</span>
+                </a>
+            <?php endif; ?>
+            
+            <a href="inscription.php" class="nav-card">
+                <div class="emoji">🆔</div>
+                <span>Carte Fidélité / Inscription</span>
+            </a>
+            
+            <?php if(isset($_SESSION['client']) && $_SESSION['client']->EstAdmin == 1): ?>
+                <a href="admin_gestion.php" class="nav-card">
+                    <div class="emoji">⚙️</div>
+                    <span>Gestion BD</span>
+                </a>
+            <?php endif; ?>
+        </div>
 
-    // --- AUTHENTIFICATION ---
-    case 'login':
-        $ctrlAuth->login();
-        break;
-    case 'login_post':
-        $ctrlAuth->loginPost();
-        break;
-    case 'logout':
-        $ctrlAuth->logout();
-        break;
-    case 'inscription':
-        $ctrlAuth->inscription();
-        break;
-    case 'inscription_post':
-        $ctrlAuth->inscriptionPost();
-        break;
-
-    // --- CATALOGUE / COMMANDE ---
-    case 'rayons':
-        $ctrlCatalog->rayons();
-        break;
-    case 'produits':
-        $ctrlCatalog->produits();
-        break;
-    case 'quantite':
-        $ctrlCatalog->quantite();
-        break;
-    case 'facture':
-        $ctrlCatalog->facture();
-        break;
-
-    // --- ADMINISTRATION ---
-    case 'admin_membres':
-        $ctrlAdmin->membres();
-        break;
-    case 'admin_inventaire':
-        $ctrlAdmin->inventaire();
-        break;
-    case 'add_produit':
-        $ctrlAdmin->addProduit();
-        break;
-    case 'edit_produit':
-        $ctrlAdmin->editProduit();
-        break;
-    case 'del_produit':
-        $ctrlAdmin->delProduit();
-        break;
-    case 'edit_client':
-        $ctrlAdmin->editClient();
-        break;
-    case 'del_client':
-        $ctrlAdmin->delClient();
-        break;
-
-    default:
-        $ctrlCatalog->home();
-        break;
-}
+    </div>
+    
+</body>
+</html>
