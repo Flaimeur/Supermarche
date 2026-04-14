@@ -4,7 +4,7 @@ class Modele {
 
     public function __construct() {
         try {
-            $this->bdd = new PDO('mysql:host=localhost;dbname=supermarche;charset=utf8', 'root', '');
+            $this->bdd = new PDO('mysql:host=127.0.0.1;dbname=supermarche;charset=utf8', 'root', '');
             $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Erreur de connexion : " . $e->getMessage());

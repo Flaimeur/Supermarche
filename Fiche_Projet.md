@@ -6,46 +6,39 @@ L'application **Supermarché 2.0** est une plateforme web développée pour gér
 ## 2. Fonctionnalités Principales
 
 ### 👨‍💼 Espace Client
-*   **Animation d'accueil dynamique :** "Splash-screen" personnalisé au lancement de l'application.
-*   **Inscription & Carte de Fidélité :** Création d'un nouveau compte client.
-*   **Authentification :** Connexion sécurisée avec un système de session (`login.php`, `logout.php`).
-*   **Commandes :** Possibilité de sélectionner des produits (`produits.php`), choisir les quantités (`quantite.php`), et de valider une commande (`Passer_commande.php`).
-*   **Facturation :** Génération d'une facture récapitulative de la commande (`facture.php`).
+*   **Animation d'accueil dynamique :** "Splash-screen" pro-grade au lancement de l'application.
+*   **Routeur Centralisé :** Toute la navigation passe par `index.php?action=...` pour une sécurité accrue.
+*   **Authentification :** Connexion et déconnexion via `ControllerAuth`.
+*   **Catalogue & Commandes :** Navigation par rayons, choix des quantités et panier géré par `ControllerCatalog`.
+*   **Facturation :** Génération d'une facture récapitulative dynamique.
 
 ### 🛠 Espace Administrateur (Gestion BD)
-*   *L'accès à ces pages est réservé aux comptes ayant le statut administrateur (`EstAdmin == 1`).*
-*   **Tableau de bord administrateur :** Vue d'ensemble pour la gestion globale (`admin_gestion.php`).
-*   **Gestion des Produits :** Ajouter, modifier, et gérer le catalogue des articles vendus (`admin_produits.php`, `add_produit.php`, `edit_produit.php`).
-*   **Gestion des Clients :** Modification et supervision des profils des utilisateurs inscrits (`edit_client.php`).
+*   *L'accès est réservé aux comptes avec un `role` administratif.*
+*   **Gestion des Membres :** Supervision complète des adhérents via `ControllerAdmin`.
+*   **Gestion du Catalogue :** Ajout, modification et suppression des produits via une interface sécurisée.
+*   **Sécurité RBAC :** Les droits sont modulés selon la fonction (admin_produits, admin_comptes, etc.).
 
 ## 3. Technologies Utilisées
-*   **Front-end :** HTML5, CSS3 (Feuille de style `style.css`), JavaScript (animations du DOM).
-*   **Back-end :** PHP (gestions des entités, sessions et logique métier).
-*   **Base de Données :** SQL (Dossier `SQL` contenant potentiellement les scripts de création et d'insertion).
+*   **Architecture :** MVC (Modèle-Vue-Contrôleur) complet.
+*   **Backend :** PHP 8, Sessions, Router, PDO.
+*   **Frontend :** Design System moderne, CSS Variable, Glassmorphism.
 
 ---
 
 ## 4. Captures d'écran (À intégrer)
 
-> *Note : N'ayant pas accès à l'affichage de votre navigateur en temps réel pour prendre des captures d'écran, **je vous ai préparé des emplacements ci-dessous**. 
-Pour ajouter vos images, prenez vos captures, placez-les dans le dossier `img/` (ou un dossier `captures/`) et remplacez les textes entre crochets par le bon nom de fichier.*
-
-### 1. Page d'Accueil (Animation & Menu de navigation)
-*(Prenez une capture de la page `index.php` montrant l'écran de bienvenue et les boutons "Se connecter", "S'inscrire", etc.)*
+### 1. Page d'Accueil (Dashboard MVC)
+*(Capture du dashboard après l'animation splash)*
 ![Capture Page d'Accueil](chemin/vers/votre/capture_accueil.png)
 
-### 2. Page de Connexion / Inscription
-*(Prenez une capture du formulaire de login ou d'enregistrement sur `login.php` ou `inscription.php`)*
+### 2. Interface Authentification
+*(Capture du formulaire de login actionné par le router)*
 ![Capture Connexion](chemin/vers/votre/capture_connexion.png)
 
-### 3. Interface de Prise de Commande
-*(Prenez une capture de l'interface où le client choisit les produits et les quantités (`Passer_commande.php`)*
-![Capture Prise de Commande](chemin/vers/votre/capture_commande.png)
-
-### 4. Interface d'Administration (Gestion des Produits/Clients)
-*(Prenez une capture depuis le compte d'un administrateur, par exemple sur l'écran `admin_gestion.php` ou `admin_produits.php`)*
+### 3. Gestion du Catalogue (Admin)
+*(Capture de l'inventaire filtré par rôle)*
 ![Capture Interface Administrateur](chemin/vers/votre/capture_admin.png)
 
-### 5. Exemple de Facture Générée
-*(Prenez une capture du rendu visuel de la page `facture.php` après une commande)*
+### 4. Rendu de Facture
+*(Capture de la page facture finale)*
 ![Capture Facture](chemin/vers/votre/capture_facture.png)
