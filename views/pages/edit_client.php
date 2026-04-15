@@ -58,7 +58,7 @@
             <p style="color: #ef5350; text-align: center; margin-bottom: 20px;"><?= $message ?></p>
         <?php endif; ?>
 
-        <form method="POST" action="index.php?action=edit_client&id=<?= $client->IdClient ?>">
+        <form method="POST" action="index.php?action=admin_edit_client&id=<?= $client->IdClient ?>">
             <input type="hidden" name="id" value="<?= $client->IdClient ?>">
             
             <div class="form-grid">

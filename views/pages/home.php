@@ -68,8 +68,14 @@
             <span>Carte Fidélité / Inscription</span>
         </a>
         
-        <?php if(isset($_SESSION['client']) && $_SESSION['client']->role == 'admin'): ?>
-            <a href="index.php?action=admin_membres" class="nav-card">
+        <?php if(isset($_SESSION['client']) && $_SESSION['client']->role !== 'client'): ?>
+            <?php 
+                $admin_route = "admin_membres";
+                if (in_array($_SESSION['client']->role, ['admin_produits', 'admin_prix', 'admin_suppression'])) {
+                    $admin_route = "admin_inventaire";
+                }
+            ?>
+            <a href="index.php?action=<?= $admin_route ?>" class="nav-card">
                 <div class="emoji">⚙️</div>
                 <span>Gestion BD</span>
             </a>

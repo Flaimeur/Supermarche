@@ -7,9 +7,14 @@ class ControllerAdmin {
     }
 
     private function checkAccess($allowedRoles) {
-        $role = $_SESSION['client']->role ?? 'client';
-        if (!isset($_SESSION['client']) || !in_array($role, $allowedRoles)) {
-            header('Location: index.php');
+        if (!isset($_SESSION['client'])) {
+            header('Location: index.php?action=login&msg=Veuillez vous connecter pour accéder à cette page.');
+            exit();
+        }
+        
+        $role = $_SESSION['client']->role;
+        if (!in_array($role, $allowedRoles)) {
+            header('Location: index.php?msg=Erreur : Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
             exit();
         }
         return $role;

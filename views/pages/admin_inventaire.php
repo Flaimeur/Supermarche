@@ -65,7 +65,7 @@
         
         function confirmerSuppression(id, nom) {
             document.getElementById('deleteProductName').textContent = "#" + id + " - " + nom;
-            deleteUrl = "index.php?action=del_produit&id=" + id;
+            deleteUrl = "index.php?action=admin_del_produit&id=" + id;
             document.getElementById('deleteModal').style.display = 'flex';
         }
         
@@ -91,9 +91,11 @@
     <?php endif; ?>
 
     <div style="display: flex; gap: 15px; margin-bottom: 25px; justify-content: center;">
+        <?php if(in_array($_SESSION['client']->role, ['super_admin', 'admin_comptes'])): ?>
         <a href="index.php?action=admin_membres" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
             👥 Gestion Utilisateurs
         </a>
+        <?php endif; ?>
         <a href="index.php?action=admin_inventaire" class="btn-carre" style="background: rgba(52, 152, 219, 0.2); border-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
             📦 Gestion Produits
         </a>
@@ -138,7 +140,7 @@
                         </td>
                         <td>
                             <div class="action-btns">
-                                <a href="index.php?action=edit_produit&id=<?= $p->IdProduit ?>" class="btn-small" title="Modifier">✏️</a>
+                                <a href="index.php?action=admin_edit_produit&id=<?= $p->IdProduit ?>" class="btn-small" title="Modifier">✏️</a>
                                 <?php if($can_delete): ?>
                                     <button class="btn-small btn-delete" title="Supprimer" onclick="confirmerSuppression(<?= $p->IdProduit ?>, '<?= addslashes($p->NomProd) ?>')">🗑️</button>
                                 <?php endif; ?>

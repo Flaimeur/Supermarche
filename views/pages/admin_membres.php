@@ -151,7 +151,7 @@
         
         function confirmerSuppression(id, nom) {
             document.getElementById('deleteUserName').textContent = "#" + id + " - " + nom;
-            deleteUrl = "index.php?action=del_client&id=" + id;
+            deleteUrl = "index.php?action=admin_del_client&id=" + id;
             document.getElementById('deleteModal').style.display = 'flex';
         }
         
@@ -180,9 +180,11 @@
         <a href="index.php?action=admin_membres" class="btn-carre" style="background: rgba(52, 152, 219, 0.2); border-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
             👥 Gestion Utilisateurs
         </a>
+        <?php if(in_array($_SESSION['client']->role, ['super_admin', 'admin_produits', 'admin_prix'])): ?>
         <a href="index.php?action=admin_inventaire" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 250px;">
             📦 Gestion Produits
         </a>
+        <?php endif; ?>
         <a href="index.php" class="btn-carre" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 200px;">
             🏠 Accueil
         </a>
@@ -219,7 +221,7 @@
                     </td>
                     <td>
                         <div class="action-btns">
-                            <a href="index.php?action=edit_client&id=<?= $c->IdClient ?>" class="btn-small" title="Modifier">✏️</a>
+                            <a href="index.php?action=admin_edit_client&id=<?= $c->IdClient ?>" class="btn-small" title="Modifier">✏️</a>
                             <button class="btn-small btn-delete" title="Supprimer" onclick="confirmerSuppression(<?= $c->IdClient ?>, '<?= addslashes($c->Nom . ' ' . $c->Prenom) ?>')">🗑️</button>
                         </div>
                     </td>

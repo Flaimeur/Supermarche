@@ -54,7 +54,7 @@
             <p style="color: #ef5350; text-align: center; margin-bottom: 20px; font-weight: 600;"><?= $message ?></p>
         <?php endif; ?>
 
-        <form method="POST" action="index.php?action=edit_produit&id=<?= $produit->IdProduit ?>">
+        <form method="POST" action="index.php?action=admin_edit_produit&id=<?= $produit->IdProduit ?>">
             <input type="hidden" name="id" value="<?= $produit->IdProduit ?>">
             
             <div class="form-grid">
