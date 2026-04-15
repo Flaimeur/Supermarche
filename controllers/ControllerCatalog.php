@@ -99,10 +99,40 @@ class ControllerCatalog {
             exit();
         }
 
-        // 4. Calculs pour l'affichage
+        // 4. Validation de la facture
+        if (isset($_POST['action_valider'])) {
+            if (empty($_SESSION['panier'])) {
+                header("Location: index.php?action=facture&error=empty");
+                exit();
+            }
+
+            $idClient = isset($_SESSION['client']) ? $_SESSION['client']->IdClient : null;
+            $numFactureGenerated = $this->modele->creerFacture($idClient, $_SESSION['panier']);
+            
+            if ($numFactureGenerated) {
+                // Redirection vers une vue de succès avec les infos nécessaires
+                $_SESSION['dernier_panier'] = $_SESSION['panier']; // On garde une trace pour l'affichage final
+                $_SESSION['panier'] = [];
+                
+                // Rafraîchir les points du client en session
+                if ($idClient) {
+                    $_SESSION['client'] = $this->modele->getClientById($idClient);
+                }
+
+                header("Location: index.php?action=facture&subaction=success&id=" . $numFactureGenerated);
+                exit();
+            } else {
+                $errorMsg = "Erreur lors de l'enregistrement de votre commande.";
+            }
+        }
+
+        // 5. Calculs pour l'affichage
+        $isSuccess = (isset($_GET['subaction']) && $_GET['subaction'] === 'success');
+        $displayPanier = $isSuccess ? ($_SESSION['dernier_panier'] ?? []) : $_SESSION['panier'];
+
         $totalGlobalHT = 0;
         $panierDetail = [];
-        foreach ($_SESSION['panier'] as $idProd => $qte) {
+        foreach ($displayPanier as $idProd => $qte) {
             $p = $this->modele->getProduit($idProd);
             if ($p) {
                 $p->qte = $qte;
@@ -119,9 +149,9 @@ class ControllerCatalog {
             $lienAutreProduit = "index.php?action=produits&famille=" . $dernierProduit->IdFamille;
         }
 
-        $title = "Votre Facture - Supermarché 2.0";
+        $title = $isSuccess ? "Commande Validée - Supermarché 2.0" : "Votre Facture - Supermarché 2.0";
         $dateFacture = date("d/m/Y");
-        $numFacture  = 4389; 
+        $numFacture  = $isSuccess ? $_GET['id'] : 4389; 
         $numClient   = isset($_SESSION['client']) ? $_SESSION['client']->IdClient : "INVITÉ";
         $pointsClient = isset($_SESSION['client']) ? $_SESSION['client']->point : 0;
 

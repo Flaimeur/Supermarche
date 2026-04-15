@@ -6,6 +6,23 @@
     <div class="titre-1">FACTURE</div>
     <div class="titre-2">Résumé de votre commande</div>
 
+    <?php if (isset($isSuccess) && $isSuccess): ?>
+        <div style="background: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; border-radius: 12px; padding: 20px; margin-bottom: 30px; text-align: center; animation: slideDown 0.5s ease-out;">
+            <div style="font-size: 1.5rem; color: #2ecc71; font-weight: 700; margin-bottom: 5px;">🎉 Commande Validée !</div>
+            <div style="color: white; opacity: 0.9;">Votre achat a été enregistré avec succès dans notre base de données.</div>
+            <div style="font-size: 0.85rem; color: #f1c40f; margin-top: 10px; font-weight: 600;">+ <?= floor($totalGlobalHT / 10) ?> points de fidélité gagnés</div>
+        </div>
+        
+        <script>
+            // Déclenchement de l'impression après un court délai pour laisser la page s'afficher
+            window.onload = function() {
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            };
+        </script>
+    <?php endif; ?>
+
     <!-- En-tête de facture -->
     <div style="display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 30px;">
         <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -109,12 +126,18 @@
         </div>
         
         <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px;">
-            <a href="index.php?action=facture&subaction=vider" class="btn-carre" style="margin: 0; background: rgba(231, 76, 60, 0.1); border-color: rgba(231, 76, 60, 0.3); color: #ef5350; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='#e74c3c'; this.style.color='white'" onmouseout="this.style.background='rgba(231, 76, 60, 0.1)'; this.style.color='#ef5350'">
-                🗑️ Vider le panier
-            </a>
-            <button type="button" onclick="window.print()" class="btn-carre btn-blue" style="margin: 0; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;">
-                ✅ Valider & Imprimer la facture
-            </button>
+            <?php if (!(isset($isSuccess) && $isSuccess)): ?>
+                <a href="index.php?action=facture&subaction=vider" class="btn-carre" style="margin: 0; background: rgba(231, 76, 60, 0.1); border-color: rgba(231, 76, 60, 0.3); color: #ef5350; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='#e74c3c'; this.style.color='white'" onmouseout="this.style.background='rgba(231, 76, 60, 0.1)'; this.style.color='#ef5350'">
+                    🗑️ Vider le panier
+                </a>
+                <button type="submit" name="action_valider" value="1" class="btn-carre btn-blue" style="margin: 0; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;">
+                    ✅ Valider & Imprimer la facture
+                </button>
+            <?php else: ?>
+                <button type="button" onclick="window.print()" class="btn-carre btn-blue" style="grid-column: span 2; margin: 0; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;">
+                    🖨️ Ré-imprimer la facture
+                </button>
+            <?php endif; ?>
         </div>
 
     </form>

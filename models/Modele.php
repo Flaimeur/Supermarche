@@ -222,5 +222,67 @@ class Modele {
         }
     }
 
+    // --- GESTION DES COMMANDES (NOUVEAU) ---
+
+    /**
+     * Crée une facture et enregistre son contenu dans la base de données.
+     * @param int|null $idClient ID du client ou null si invité
+     * @param array $panier Contenu du panier (idProduit => quantite)
+     * @return int|bool Le numéro de la facture créée ou false en cas d'erreur
+     */
+    public function creerFacture($idClient, $panier) {
+        if (empty($panier)) return false;
+
+        try {
+            $this->bdd->beginTransaction();
+
+            // 1. Création de la facture
+            $sqlFacture = "INSERT INTO facture (DateFacture, IdClient) VALUES (CURDATE(), :idClient)";
+            $sthFacture = $this->bdd->prepare($sqlFacture);
+            $sthFacture->execute(['idClient' => $idClient]);
+            
+            $numFacture = $this->bdd->lastInsertId();
+            $totalHT = 0;
+
+            // 2. Insertion des articles dans 'contenir'
+            $sqlContenir = "INSERT INTO contenir (NumeroFacture, IdProduit, Quantite) VALUES (:numF, :idP, :qty)";
+            $sthContenir = $this->bdd->prepare($sqlContenir);
+
+            foreach ($panier as $idProd => $qty) {
+                $sthContenir->execute([
+                    'numF' => $numFacture,
+                    'idP' => $idProd,
+                    'qty' => $qty
+                ]);
+
+                // On récupère le prix pour calculer les points
+                $p = $this->getProduit($idProd);
+                if ($p) {
+                    $totalHT += $p->Prix * $qty;
+                }
+            }
+
+            // 3. Mise à jour des points de fidélité (1 pt par 10€ HT)
+            if ($idClient !== null && $totalHT >= 10) {
+                $pointsGagnes = floor($totalHT / 10);
+                $sqlPoints = "UPDATE adherent SET point = point + :pts WHERE IdClient = :id";
+                $sthPoints = $this->bdd->prepare($sqlPoints);
+                $sthPoints->execute([
+                    'pts' => $pointsGagnes,
+                    'id' => $idClient
+                ]);
+                
+                // On met à jour l'objet client en session si nécessaire (sera fait dans le contrôleur)
+            }
+
+            $this->bdd->commit();
+            return $numFacture;
+
+        } catch (PDOException $e) {
+            $this->bdd->rollBack();
+            error_log("Erreur creerFacture : " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
-?>
