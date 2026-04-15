@@ -23,5 +23,6 @@
         </form>
 
         <p style="margin-top: 30px; color: var(--text-dim);">
+            <a href="index.php?action=forgot_password" style="color: var(--primary); text-decoration: none; font-weight: 600; display: block; margin-bottom: 10px;">Mot de passe oublié ?</a>
             Pas encore de compte ? <a href="index.php?action=inscription" style="color: var(--primary); text-decoration: none;">Inscrivez-vous ici</a>
         </p>

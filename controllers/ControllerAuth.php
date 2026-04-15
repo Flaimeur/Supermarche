@@ -94,4 +94,71 @@ class ControllerAuth {
             }
         }
     }
+
+    // --- MOT DE PASSE OUBLIÉ ---
+
+    public function forgotPassword() {
+        $title = "Récupération de compte - Supermarché 2.0";
+        $message = isset($_GET['msg']) ? $_GET['msg'] : "";
+        $error = isset($_GET['error']) ? $_GET['error'] : "";
+        
+        ob_start();
+        require 'views/pages/forgot_password.php';
+        $content = ob_get_clean();
+        require 'views/layout.php';
+    }
+
+    public function forgotPasswordPost() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['num_client'];
+            $motMagique = $_POST['mot_magique'];
+
+            if ($this->modele->verifyMagicWord($id, $motMagique)) {
+                $_SESSION['reset_client_id'] = $id;
+                header('Location: index.php?action=reset_password');
+                exit();
+            } else {
+                header('Location: index.php?action=forgot_password&error=Identifiant ou mot magique incorrect.');
+                exit();
+            }
+        }
+    }
+
+    public function resetPassword() {
+        if (!isset($_SESSION['reset_client_id'])) {
+            header('Location: index.php?action=forgot_password');
+            exit();
+        }
+
+        $title = "Nouveau mot de passe - Supermarché 2.0";
+        $error = isset($_GET['error']) ? $_GET['error'] : "";
+
+        ob_start();
+        require 'views/pages/reset_password.php';
+        $content = ob_get_clean();
+        require 'views/layout.php';
+    }
+
+    public function resetPasswordPost() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['reset_client_id'])) {
+            $mdp = $_POST['mdp'];
+            $confirm = $_POST['confirm_mdp'];
+            $id = $_SESSION['reset_client_id'];
+
+            if ($mdp !== $confirm) {
+                header('Location: index.php?action=reset_password&error=Les mots de passe ne correspondent pas.');
+                exit();
+            }
+
+            $ok = $this->modele->updatePassword($id, $mdp);
+            if ($ok) {
+                unset($_SESSION['reset_client_id']);
+                header('Location: index.php?action=login&msg=Mot de passe réinitialisé avec succès !');
+                exit();
+            } else {
+                header('Location: index.php?action=reset_password&error=Erreur lors de la mise à jour.');
+                exit();
+            }
+        }
+    }
 }

@@ -46,6 +46,23 @@ try {
             $ctrl->logout();
             break;
 
+        case 'forgot_password':
+            $ctrl = new ControllerAuth($modele);
+            $ctrl->forgotPassword();
+            break;
+        case 'forgot_password_post':
+            $ctrl = new ControllerAuth($modele);
+            $ctrl->forgotPasswordPost();
+            break;
+        case 'reset_password':
+            $ctrl = new ControllerAuth($modele);
+            $ctrl->resetPassword();
+            break;
+        case 'reset_password_post':
+            $ctrl = new ControllerAuth($modele);
+            $ctrl->resetPasswordPost();
+            break;
+
         case 'inscription':
         case 'inscription_post':
             $ctrl = new ControllerAuth($modele);

@@ -35,9 +35,12 @@ class Modele {
     
     // Inscription d'un nouveau client
     public function ajouterClient($nom, $prenom, $adresse, $ville, $cp, $mdp, $dateNaissance, $motMagique) {
-        // On insère le client. 'point' est mis à 0 par défaut.
+        // Hachage des identifiants sensibles
+        $mdpHache = password_hash($mdp, PASSWORD_BCRYPT);
+        $mmHache = password_hash($motMagique, PASSWORD_BCRYPT);
+
         $sql = "INSERT INTO adherent (Nom, Prenom, Adresse, Ville, CodePostal, MotDePasse, Date_naissance, point, MotMagique, role) 
-                VALUES (:nom, :prenom, :adresse, :ville, :cp, :mdp, :dateN, 0, :motMagique, 'client')";
+                VALUES (:nom, :prenom, :adresse, :ville, :cp, :mdp, :dateN, 0, :mm, 'client')";
         
         $sth = $this->bdd->prepare($sql);
         
@@ -47,21 +50,47 @@ class Modele {
             'adresse' => $adresse,
             'ville' => $ville,
             'cp' => $cp,
-            'mdp' => $mdp,
+            'mdp' => $mdpHache,
             'dateN' => $dateNaissance,
-            'motMagique' => $motMagique
+            'mm' => $mmHache
         ]);
     }
 
     // Vérification des identifiants pour la connexion
     public function verifierClient($id, $mdp) {
-        $sql = "SELECT * FROM adherent WHERE IdClient = :id AND MotDePasse = :mdp";
+        $sql = "SELECT * FROM adherent WHERE IdClient = :id";
         $sth = $this->bdd->prepare($sql);
-        $sth->execute([
+        $sth->execute(['id' => $id]);
+        $user = $sth->fetch(PDO::FETCH_OBJ);
+
+        if ($user && password_verify($mdp, $user->MotDePasse)) {
+            return $user;
+        }
+        return false;
+    }
+
+    // Vérifier si un client existe et son mot magique
+    public function verifyMagicWord($id, $magicWord) {
+        $sql = "SELECT MotMagique FROM adherent WHERE IdClient = :id";
+        $sth = $this->bdd->prepare($sql);
+        $sth->execute(['id' => $id]);
+        $user = $sth->fetch(PDO::FETCH_OBJ);
+
+        if ($user && password_verify($magicWord, $user->MotMagique)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Mettre à jour le mot de passe
+    public function updatePassword($id, $newMdp) {
+        $mdpHache = password_hash($newMdp, PASSWORD_BCRYPT);
+        $sql = "UPDATE adherent SET MotDePasse = :mdp WHERE IdClient = :id";
+        $sth = $this->bdd->prepare($sql);
+        return $sth->execute([
             'id' => $id,
-            'mdp' => $mdp
+            'mdp' => $mdpHache
         ]);
-        return $sth->fetch(PDO::FETCH_OBJ);
     }
 
     // Récupérer tous les clients (pour l'admin)

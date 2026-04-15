@@ -1,13 +1,13 @@
--- MariaDB dump 10.19  Distrib 10.4.28-MariaDB, for osx10.10 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: localhost    Database: supermarche
+-- Host: 127.0.0.1    Database: supermarche
 -- ------------------------------------------------------
--- Server version	10.4.28-MariaDB
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `adherent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adherent` (
   `IdClient` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(100) NOT NULL,
@@ -39,22 +39,12 @@ CREATE TABLE `adherent` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adherent`
---
-
-LOCK TABLES `adherent` WRITE;
-/*!40000 ALTER TABLE `adherent` DISABLE KEYS */;
-INSERT INTO `adherent` VALUES (1,'toto','tata','11 rue lecourbe','paris',NULL,'azerty1','2005-03-17',300,NULL,'client'),(2,'lola','marko','12 rue lecourbe','paris',NULL,'azerty2','2005-06-21',240,NULL,'admin_produits'),(3,'lola','marko','12 rue lecourbe','paris',NULL,'azerty2','2005-06-21',240,NULL,'admin_prix'),(4,'bombe','yanis','13 rue lecourbe','paris',NULL,'azerty3','2002-04-12',29,NULL,'admin_comptes'),(5,'ONEPIECE','Tina','10 truc much','PARIS','75015','1234AZER','2020-12-03',0,'MARKO','super_admin'),(6,'cleaner','jean','5 rue du balai','Lyon','69000','cleanit','1995-10-10',0,'CLEAN','admin_suppression');
-/*!40000 ALTER TABLE `adherent` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `contenir`
 --
 
 DROP TABLE IF EXISTS `contenir`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contenir` (
   `NumeroFacture` int(11) NOT NULL,
   `IdProduit` int(11) NOT NULL,
@@ -67,22 +57,12 @@ CREATE TABLE `contenir` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `contenir`
---
-
-LOCK TABLES `contenir` WRITE;
-/*!40000 ALTER TABLE `contenir` DISABLE KEYS */;
-INSERT INTO `contenir` VALUES (1,1,10),(2,2,25),(3,3,56),(4,4,75);
-/*!40000 ALTER TABLE `contenir` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `facture`
 --
 
 DROP TABLE IF EXISTS `facture`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `facture` (
   `NumeroFacture` int(11) NOT NULL AUTO_INCREMENT,
   `DateFacture` date NOT NULL,
@@ -94,22 +74,12 @@ CREATE TABLE `facture` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `facture`
---
-
-LOCK TABLES `facture` WRITE;
-/*!40000 ALTER TABLE `facture` DISABLE KEYS */;
-INSERT INTO `facture` VALUES (1,'2025-09-10',1),(2,'2025-09-12',2),(3,'2025-09-08',3),(4,'2025-09-16',4);
-/*!40000 ALTER TABLE `facture` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `famille`
 --
 
 DROP TABLE IF EXISTS `famille`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `famille` (
   `IdFamille` int(11) NOT NULL AUTO_INCREMENT,
   `NomFamille` varchar(100) NOT NULL,
@@ -118,22 +88,12 @@ CREATE TABLE `famille` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `famille`
---
-
-LOCK TABLES `famille` WRITE;
-/*!40000 ALTER TABLE `famille` DISABLE KEYS */;
-INSERT INTO `famille` VALUES (1,'boissons'),(2,'legumes'),(3,'fruits'),(4,'boulangerie');
-/*!40000 ALTER TABLE `famille` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `produit`
 --
 
 DROP TABLE IF EXISTS `produit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `produit` (
   `IdProduit` int(11) NOT NULL AUTO_INCREMENT,
   `NomProd` varchar(150) NOT NULL,
@@ -147,14 +107,45 @@ CREATE TABLE `produit` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `produit`
+-- Temporary view structure for view `vue_commandes_clients`
 --
 
-LOCK TABLES `produit` WRITE;
-/*!40000 ALTER TABLE `produit` DISABLE KEYS */;
-INSERT INTO `produit` VALUES (1,'pepsi',4.50,1,'pepsi.jpg'),(2,'carottes',9.00,2,'carottes.jpg'),(3,'fraise',3.40,3,'fraise.jpg'),(4,'pain',1.70,4,'pain.jpg'),(5,'Coca-Cola Zéro 1.5L',1.95,1,'cocacola_zero.jpg'),(6,'Fanta Orange 1.5L',1.80,1,'fanta_orange.jpg'),(7,'Sprite 1.5L',1.80,1,'sprite.jpg'),(8,'Oasis Tropical 2L',2.40,1,'oasis_tropical.jpg'),(9,'Schweppes Agrumes 1.5L',2.10,1,'schweppes_agrumes.jpg'),(10,'Orangina 1.5L',2.05,1,'orangina.jpg'),(11,'Ice Tea Pêche 1.5L',1.99,1,'ice_tea_peche.jpg'),(12,'Ice Tea Citron 1.5L',1.99,1,'ice_tea_citron.jpg'),(13,'Red Bull 25cl',1.50,1,'red_bull.jpg'),(14,'Monster Energy 50cl',1.80,1,'monster_energy.jpg'),(15,'Eau Evian 1.5L',0.70,1,'eau_evian.jpg'),(16,'Eau Volvic 1.5L',0.65,1,'eau_volvic.jpg'),(17,'Eau Hépar 1L',0.80,1,'eau_hepar.jpg'),(18,'Perrier 1L',0.95,1,'default.png'),(19,'San Pellegrino 1L',1.10,1,'default.png'),(20,'Badoit Rouge 1L',1.05,1,'default.png'),(21,'Jus de Pomme Artisanal',3.50,1,'default.png'),(22,'Jus de Raisin',2.20,1,'default.png'),(23,'Nectar d\'Abricot',1.90,1,'default.png'),(24,'Jus de Tomate épicé',2.10,1,'default.png'),(25,'Sirop de Menthe',3.10,1,'default.png'),(26,'Sirop de Citron',3.10,1,'default.png'),(27,'Sirop de Fraise',3.25,1,'default.png'),(28,'Bière Brune 33cl',1.60,1,'default.png'),(29,'Bière Blanche 33cl',1.50,1,'default.png'),(30,'Pack Bière Lager (x6)',4.50,1,'default.png'),(31,'Cidre Doux 75cl',2.80,1,'default.png'),(32,'Cidre Brut 75cl',2.80,1,'default.png'),(33,'Vin Rouge Bordeaux',6.50,1,'default.png'),(34,'Vin Blanc Chardonnay',5.90,1,'default.png'),(35,'Vin Rosé de Provence',7.20,1,'default.png'),(36,'Champagne Brut',24.90,1,'default.png'),(37,'Courgettes (1kg)',2.50,2,'default.png'),(38,'Aubergines (1kg)',3.20,2,'default.png'),(39,'Poivron Rouge (l\'unité)',0.90,2,'default.png'),(40,'Poivron Vert (l\'unité)',0.80,2,'default.png'),(41,'Poivron Jaune (l\'unité)',0.95,2,'default.png'),(42,'Oignons Jaunes (Filet 1kg)',1.50,2,'default.png'),(43,'Oignons Rouges (Filet 500g)',1.80,2,'default.png'),(44,'Ail (Tresse)',2.50,2,'default.png'),(45,'Échalotes (Filet)',2.10,2,'default.png'),(46,'Pommes de Terre Vapeur (2.5kg)',4.20,2,'default.png'),(47,'Pommes de Terre Frites (2.5kg)',3.90,2,'default.png'),(48,'Patate Douce (1kg)',3.50,2,'default.png'),(49,'Radis (la botte)',1.20,2,'default.png'),(50,'Navets (1kg)',1.80,2,'default.png'),(51,'Poireaux (la botte)',2.20,2,'default.png'),(52,'Céleri Branche',1.90,2,'default.png'),(53,'Fenouil (l\'unité)',1.50,2,'default.png'),(54,'Chou-fleur (l\'unité)',2.80,2,'default.png'),(55,'Brocoli (500g)',1.60,2,'default.png'),(56,'Chou Rouge (l\'unité)',1.90,2,'default.png'),(57,'Chou Vert (l\'unité)',2.10,2,'default.png'),(58,'Epinards Frais (sachet)',2.50,2,'default.png'),(59,'Mâche Nantaise',1.90,2,'default.png'),(60,'Roquette (sachet)',1.80,2,'default.png'),(61,'Haricots Verts (500g)',2.90,2,'default.png'),(62,'Petits Pois (500g)',3.10,2,'default.png'),(63,'Champignons de Paris (barquette)',2.20,2,'default.png'),(64,'Champignons Bruns',2.50,2,'default.png'),(65,'Endives (1kg)',3.50,2,'default.png'),(66,'Potimarron (l\'unité)',3.00,2,'default.png'),(67,'Courge Butternut',2.80,2,'default.png'),(68,'Pommes Pink Lady (1kg)',3.20,3,'default.png'),(69,'Pommes Granny Smith (1kg)',2.80,3,'default.png'),(70,'Poires William (1kg)',2.90,3,'default.png'),(71,'Bananes Bio (1kg)',1.99,3,'default.png'),(72,'Oranges à jus (Filet 2kg)',3.90,3,'default.png'),(73,'Pamplemousse Rose',0.90,3,'default.png'),(74,'Citron Vert (l\'unité)',0.50,3,'default.png'),(75,'Mandarines (Filet)',2.50,3,'default.png'),(76,'Raisin Blanc (500g)',2.80,3,'default.png'),(77,'Raisin Noir (500g)',2.90,3,'default.png'),(78,'Fraises (Barquette 250g)',3.50,3,'default.png'),(79,'Framboises (Barquette 125g)',2.90,3,'default.png'),(80,'Myrtilles (Barquette 125g)',2.50,3,'default.png'),(81,'Groseilles (Barquette)',2.20,3,'default.png'),(82,'Ananas Victoria',3.90,3,'default.png'),(83,'Mangue Avion',4.50,3,'default.png'),(84,'Fruit de la Passion (x2)',2.50,3,'default.png'),(85,'Noix de Coco',1.80,3,'default.png'),(86,'Litchis (500g)',4.20,3,'default.png'),(87,'Kiwi Gold (l\'unité)',0.60,3,'default.png'),(88,'Melon Charentais',2.50,3,'default.png'),(89,'Pastèque (quart)',3.00,3,'default.png'),(90,'Pêches Jaunes (1kg)',3.50,3,'default.png'),(91,'Nectarines (1kg)',3.60,3,'default.png'),(92,'Abricots (1kg)',4.20,3,'default.png'),(93,'Prunes Reine-Claude',3.80,3,'default.png'),(94,'Cerises (500g)',6.50,3,'default.png'),(95,'Figues Violettes (x4)',2.80,3,'default.png'),(96,'Dattes (boîte)',3.20,3,'default.png'),(97,'Grenade (l\'unité)',1.90,3,'default.png'),(98,'Baguette Moulée',0.95,4,'default.png'),(99,'Baguette Céréales',1.30,4,'default.png'),(100,'Baguette Pavot',1.30,4,'default.png'),(101,'Pain Complet',2.10,4,'default.png'),(102,'Pain de Seigle',2.20,4,'default.png'),(103,'Pain aux Noix',2.80,4,'default.png'),(104,'Pain de Mie Nature',1.50,4,'default.png'),(105,'Pain Burger (x4)',2.50,4,'default.png'),(106,'Pain Kebab (x4)',2.20,4,'default.png'),(107,'Croissant Ordinaire',0.90,4,'default.png'),(108,'Pain aux Raisins',1.40,4,'default.png'),(109,'Chausson aux Pommes',1.50,4,'default.png'),(110,'Pain Suisse',1.60,4,'default.png'),(111,'Brioche Tressée',3.50,4,'default.png'),(112,'Brioche Pépites Choco',3.80,4,'default.png'),(113,'Chouquettes (x10)',2.50,4,'default.png'),(114,'Madeleines (sachet)',2.80,4,'default.png'),(115,'Donut Sucre',1.20,4,'default.png'),(116,'Donut Chocolat',1.40,4,'default.png'),(117,'Muffin Myrtille',2.10,4,'default.png'),(118,'Muffin Tout Choco',2.10,4,'default.png'),(119,'Cookie Maxi',1.80,4,'default.png'),(120,'Éclair au Chocolat',2.20,4,'default.png'),(121,'Éclair au Café',2.20,4,'default.png'),(122,'Religieuse',2.50,4,'default.png'),(123,'Mille-Feuille',2.80,4,'default.png'),(124,'Tartelette Citron',2.60,4,'default.png'),(125,'Tartelette Fraise',2.90,4,'default.png'),(126,'Flan Pâtissier (part)',2.00,4,'default.png'),(127,'Sandwich Jambon-Beurre',3.50,4,'default.png'),(128,'Sandwich Poulet-Crudités',3.90,4,'default.png'),(129,'Fougasse Olives',2.80,4,'default.png');
-/*!40000 ALTER TABLE `produit` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `vue_commandes_clients`;
+/*!50001 DROP VIEW IF EXISTS `vue_commandes_clients`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vue_commandes_clients` AS SELECT 
+ 1 AS `Numero_Commande`,
+ 1 AS `Date_Commande`,
+ 1 AS `Nom_Client`,
+ 1 AS `Prenom_Client`,
+ 1 AS `Produit_Achete`,
+ 1 AS `Quantite`,
+ 1 AS `Prix_Unitaire`,
+ 1 AS `Total_Ligne`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping routines for database 'supermarche'
+--
+
+--
+-- Final view structure for view `vue_commandes_clients`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vue_commandes_clients`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vue_commandes_clients` AS select `f`.`NumeroFacture` AS `Numero_Commande`,`f`.`DateFacture` AS `Date_Commande`,`a`.`Nom` AS `Nom_Client`,`a`.`Prenom` AS `Prenom_Client`,`p`.`NomProd` AS `Produit_Achete`,`c`.`Quantite` AS `Quantite`,`p`.`Prix` AS `Prix_Unitaire`,`c`.`Quantite` * `p`.`Prix` AS `Total_Ligne` from (((`facture` `f` join `adherent` `a` on(`f`.`IdClient` = `a`.`IdClient`)) join `contenir` `c` on(`f`.`NumeroFacture` = `c`.`NumeroFacture`)) join `produit` `p` on(`c`.`IdProduit` = `p`.`IdProduit`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -165,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-15 10:53:53
+-- Dump completed on 2026-04-15 11:21:28
