@@ -192,3 +192,20 @@ $this->bdd = new PDO('mysql:host=localhost;dbname=supermarche;charset=utf8', 'ro
 Projet scolaire — usage libre à des fins pédagogiques.
 
 sessionStorage.removeItem('splashPlayed')
+
+## comande sql
+
+CREATE VIEW vue_commandes_clients AS
+SELECT
+f.NumeroFacture AS Numero_Commande,
+f.DateFacture AS Date_Commande,
+a.Nom AS Nom_Client,
+a.Prenom AS Prenom_Client,
+p.NomProd AS Produit_Achete,
+c.Quantite,
+p.Prix AS Prix_Unitaire,
+(c.Quantite \* p.Prix) AS Total_Ligne
+FROM facture f
+JOIN adherent a ON f.IdClient = a.IdClient
+JOIN contenir c ON f.NumeroFacture = c.NumeroFacture
+JOIN produit p ON c.IdProduit = p.IdProduit;
